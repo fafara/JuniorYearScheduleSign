@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
@@ -18,7 +17,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
+import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
+import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.NetWork.HttpMethods;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
@@ -35,7 +35,7 @@ import rx.Subscriber;
  * Created by WYZ on 2017/5/12.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity{
     private final String TAG="LoginActivity";
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.bt_remember)
     CheckBox mCheckBox;
 
-    Subscriber<PeopleEntity> mSubscriber;
+    Subscriber<LoginEntity> mSubscriber;
 
     private  String name;
     private  String password;
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private  void  getLoginInfo(){
-        mSubscriber=new Subscriber<PeopleEntity>() {
+        mSubscriber=new Subscriber<LoginEntity>() {
             @Override
             public void onCompleted() {
                 MyLog.d(TAG,"登录完成");
@@ -93,8 +93,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(PeopleEntity peopleEntity) {
-                switch (peopleEntity.getDetail().getStatus()){
+            public void onNext(LoginEntity loginEntity) {
+                switch (loginEntity.getDetail().getStatus()){
                     case 0:
                         SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录账号或密码错误"));
                         break;
@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putBoolean("isRemember",mCheckBox.isChecked());
                         i2.putExtras(bundle);
                         startActivity(i2, oc2.toBundle());
+                        finish();
                         break;
                     case 2:break;
                 }
@@ -164,7 +165,9 @@ public class LoginActivity extends AppCompatActivity {
         return  false;
     }
 
-    private  void initActionBar(){
+
+    @Override
+    public void initActionBar() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

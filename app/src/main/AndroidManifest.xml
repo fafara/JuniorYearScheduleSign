@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.wyz.schedulesign">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,19 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Mvp.Activity.SplashActivity" android:theme="@style/GuideTheme">
-
+        <activity
+            android:name=".Mvp.Activity.SplashActivity"
+            android:theme="@style/GuideTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Mvp.Activity.RegisterActivity"
-                  android:theme="@style/Translucent" />
+        <activity
+            android:name=".Mvp.Activity.RegisterActivity"
+            android:theme="@style/Translucent"/>
         <activity android:name=".Mvp.Activity.LoginActivity"/>
         <activity android:name=".Mvp.Activity.MainViewActivity"/>
+        <activity android:name=".Mvp.Activity.ModifyPeopleActivity">
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

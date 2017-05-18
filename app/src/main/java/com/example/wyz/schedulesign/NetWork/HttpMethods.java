@@ -1,6 +1,7 @@
 package com.example.wyz.schedulesign.NetWork;
 
 import com.example.wyz.schedulesign.ApiManager.ApiManager;
+import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 
 import java.util.concurrent.TimeUnit;
@@ -51,8 +52,30 @@ public class HttpMethods {
     }
 
 
-    public  void getIsLoginSuccess(Subscriber<PeopleEntity> subscriber, String name,String pass){
+    public  void getIsLoginSuccess(Subscriber<LoginEntity> subscriber, String name, String pass){
         mPeopleService.getIsLoginSuccess(name,pass)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getLoginUserInfo(Subscriber<PeopleEntity> subscriber,String name){
+        mPeopleService.getLoginUserInfo(name)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getIsModSuccess(Subscriber<LoginEntity> subscriber,int id,String name,String tel,String addr,String email){
+        mPeopleService.getIsModSuccess(id,name,tel,addr,email)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getAllUserInfo(Subscriber<PeopleEntity> subscriber)
+    {
+        mPeopleService.getAllUserInfo()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

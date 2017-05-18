@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.example.wyz.schedulesign.Mvp.Fragment.FilmFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.MeFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.PeopleFragment;
 import com.example.wyz.schedulesign.R;
+import com.example.wyz.schedulesign.Util.MyExit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,7 @@ public class MainViewActivity extends AppCompatActivity {
     MeFragment mMeFragment;
     PeopleFragment mPeopleFragment;
     private List<Fragment> mFragmentList;
+    private  String loginName;
     private  int currentPage=-1;
 
     @Override
@@ -70,13 +73,20 @@ public class MainViewActivity extends AppCompatActivity {
         }
     }
 
+    private  void loadFragmentData(Fragment fragment){
+        Bundle bundle=new Bundle();
+        bundle.putString("loginName",loginName);
+        fragment.setArguments(bundle);
+    }
     private  void enterHandle(){
         Explode explode = new Explode();
         explode.setDuration(500);
-        getWindow().setExitTransition(explode);        getWindow().setEnterTransition(explode);
+        getWindow().setExitTransition(explode);
+        getWindow().setEnterTransition(explode);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         String name=bundle.getString("name");
+        loginName=name;
         String password=bundle.getString("password");
         Boolean isRemember=bundle.getBoolean("isRemember");
         SavePassWord(name,password,isRemember);
@@ -94,7 +104,9 @@ public class MainViewActivity extends AppCompatActivity {
         mFragmentList=new ArrayList<>();
         mFilmFragment=new FilmFragment();
         mPeopleFragment=new PeopleFragment();
+        loadFragmentData(mPeopleFragment);
         mMeFragment=new MeFragment();
+        loadFragmentData(mMeFragment);
         mFragmentList.add(mFilmFragment);
         mFragmentList.add(mPeopleFragment);
         mFragmentList.add(mMeFragment);
@@ -185,5 +197,12 @@ public class MainViewActivity extends AppCompatActivity {
         public int getCount() {
             return mFragmentList.size();
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            MyExit.exitBy2Click(MainViewActivity.this);
+        }
+        return  false;
     }
 }

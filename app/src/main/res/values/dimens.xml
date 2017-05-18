@@ -4,4 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_size_normal">100dp</dimen>
     <dimen name="text_size">12sp</dimen>
+    <dimen name="me_margin">20dp</dimen>
+    <dimen name="me_margin_top">15dp</dimen>
+    <dimen name="me_text_size">16sp</dimen>
+    <dimen name="me_text_margin">10dp</dimen>
+    <dimen name="item_people_size">20sp</dimen>
 </resources>

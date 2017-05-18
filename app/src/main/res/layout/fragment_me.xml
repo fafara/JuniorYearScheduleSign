@@ -1,48 +1,276 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
-             tools:context="com.example.wyz.schedulesign.Mvp.Fragment.MeFragment">
+              tools:context="com.example.wyz.schedulesign.Mvp.Fragment.MeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-   <ImageView
-       android:layout_width="match_parent"
-       android:layout_height="250dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="50dp"
+        android:background="@color/main_theme"
+        >
+        <TextView android:text="个人信息"
+                  android:textSize="18sp"
+                  android:textColor="#fff"
+                  android:gravity="center"
+                  android:layout_height="match_parent"
+                  android:layout_width="match_parent"
+            />
+    </LinearLayout>
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="150dp"
+
+       android:background="@color/main_theme">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_centerInParent="true"
+
+          >
+          <com.example.wyz.schedulesign.Util.CircleImageView
+              android:layout_width="70dp"
+              android:layout_height="70dp"
+              android:src="@mipmap/logo"
+
+              app:civ_border_width="2dp"
+              app:civ_border_color="#fff"
+
+              />
+          <TextView
+              android:id="@+id/number"
+              android:layout_marginTop="5dp"
+              android:textColor="#fff"
+              android:textSize="@dimen/me_text_size"
+              android:layout_gravity="center"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+      </LinearLayout>
+   </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
         <RelativeLayout
+            android:id="@+id/one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/me_margin_top"
+            android:paddingTop="@dimen/me_margin_top"
+            android:layout_marginStart="@dimen/me_margin"
             >
             <TextView
-                android:id="@+id/xuhao"
+                android:id="@+id/id_text"
                 android:textColor="#000"
-                android:text="序号"
-                android:textSize="15sp"
+                android:text="用户ID"
+                android:textSize="@dimen/me_text_size"
                 android:gravity="center"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <TextView
-                android:layout_toStartOf="@id/go"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:text="001"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
+
             <ImageView
                 android:id="@+id/go"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/id_text"
+                android:layout_alignBottom="@id/id_text"
                 android:src="@mipmap/go"
                 />
+            <TextView
+                android:id="@+id/ID"
+                android:layout_toStartOf="@id/go"
+                android:layout_marginEnd="@dimen/me_text_margin"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/splitLine1"
+            />
+        <RelativeLayout
+            android:id="@+id/two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/me_margin_top"
+            android:paddingTop="@dimen/me_margin_top"
+            android:layout_marginStart="@dimen/me_margin"
+            >
+            <TextView
+                android:id="@+id/name_text"
+                android:textColor="#000"
+                android:text="姓名"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/go1"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/go"
+                android:layout_alignTop="@id/name_text"
+                android:layout_alignBottom="@id/name_text"
+                />
+            <TextView
+                android:id="@+id/name"
+                android:layout_toStartOf="@id/go1"
+                android:layout_marginEnd="@dimen/me_text_margin"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/splitLine1"
+            />
+
+        <RelativeLayout
+            android:id="@+id/three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/me_margin_top"
+            android:paddingTop="@dimen/me_margin_top"
+            android:layout_marginStart="@dimen/me_margin"
+            >
+
+            <TextView
+                android:id="@+id/tel_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:text="电话"
+                android:textColor="#000"
+                android:textSize="@dimen/me_text_size"/>
+
+            <ImageView
+                android:id="@+id/go2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tel_text"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/tel_text"
+                android:src="@mipmap/go"
+                />
+
+            <TextView
+                android:id="@+id/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/me_margin"
+                android:layout_toStartOf="@id/go2"
+                android:gravity="center"
+                android:textSize="@dimen/me_text_size"/>
+
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/splitLine1"
+            />
+        <RelativeLayout
+            android:id="@+id/four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/me_margin_top"
+            android:paddingTop="@dimen/me_margin_top"
+            android:layout_marginStart="@dimen/me_margin"
+            >
+            <TextView
+                android:id="@+id/addr_text"
+                android:textColor="#000"
+                android:text="地址"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/go3"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/go"
+                android:layout_alignBottom="@id/addr_text"
+                android:layout_alignTop="@id/addr_text"
+                />
+            <TextView
+                android:id="@+id/addr"
+                android:layout_toStartOf="@id/go3"
+                android:layout_marginEnd="@dimen/me_text_margin"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/splitLine1"
+            />
+        <RelativeLayout
+            android:id="@+id/five"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/me_margin_top"
+            android:paddingTop="@dimen/me_margin_top"
+            android:layout_marginStart="@dimen/me_margin"
+            >
+            <TextView
+                android:id="@+id/email_text"
+                android:textColor="#000"
+                android:text="邮箱"
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/go4"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/go"
+                android:layout_alignTop="@id/email_text"
+                android:layout_alignBottom="@id/email_text"
+                />
+            <TextView
+                android:id="@+id/email"
+                android:layout_toStartOf="@id/go4"
+
+                android:textSize="@dimen/me_text_size"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/me_text_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/splitLine1"
+            />
     </LinearLayout>
 </LinearLayout>
