@@ -12,7 +12,7 @@ public class PeopleEntity {
     private String password;
     private boolean Result;
     private List<MDetail> Detail;
-    public  class MDetail{
+    public static class MDetail{
 
         private  int status;
         private int emp_id;

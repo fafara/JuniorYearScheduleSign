@@ -21,9 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
-
-
-public class ModifyPeopleActivity extends BaseActivity {
+public class ModifyLoginPeopleActivity extends BaseActivity {
     @InjectView(R.id.ID)
     EditText mID;
     @InjectView(R.id.name)
@@ -48,12 +46,12 @@ public class ModifyPeopleActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_people);
+        setContentView(R.layout.activity_modify_login_people);
         ButterKnife.inject(this);
         initActionBar();
         loadData();
     }
-    private  void dataResponse(){
+    private  void modData(){
         mSubscriber=new Subscriber<LoginEntity>() {
             @Override
             public void onCompleted() {
@@ -62,7 +60,7 @@ public class ModifyPeopleActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-                SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改失败:"+e.getMessage()));
+                SnackbarManager.show(Snackbar.with(ModifyLoginPeopleActivity.this).text("修改失败:"+e.getMessage()));
             }
 
             @Override
@@ -70,27 +68,20 @@ public class ModifyPeopleActivity extends BaseActivity {
                 switch (loginEntity.getDetail().getStatus()){
                     case 1:
 
-                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改成功"));
-                        ModifyPeopleActivity.this.finish();
+                        SnackbarManager.show(Snackbar.with(ModifyLoginPeopleActivity.this).text("修改成功"));
+                        ModifyLoginPeopleActivity.this.finish();
                         break;
                     case  0:
-                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改失败"));
+                        SnackbarManager.show(Snackbar.with(ModifyLoginPeopleActivity.this).text("修改失败"));
                         break;
                 }
 
             }
         };
-    }
-    private  void delData(){
-        dataResponse();
-        UserHttpMethods.getInstance().getIsDeleteSuccess(mSubscriber,no);
-    }
-    private  void modData(){
-        dataResponse();
         UserHttpMethods.getInstance().getIsModSuccess(mSubscriber,id,name,tel,addr,email);
     }
     private void loadData() {
-       Bundle bundle=getIntent().getExtras();
+        Bundle bundle=getIntent().getExtras();
         pos=bundle.getInt("pos");
         mID.setText(String.valueOf(bundle.getInt("id")));
         mName.setText(bundle.getString("name"));
@@ -100,7 +91,7 @@ public class ModifyPeopleActivity extends BaseActivity {
         no=bundle.getString("no");
     }
 
-    @OnClick({R.id.btn,R.id.del_btn})
+    @OnClick({R.id.btn})
     public  void onClick(View view){
         switch (view.getId()){
             case R.id.btn:
@@ -115,7 +106,6 @@ public class ModifyPeopleActivity extends BaseActivity {
                     tel=mTel.getText().toString();
                     addr=mAddr.getText().toString();
                     email=mEmail.getText().toString();
-
                     bundle.putInt("pos",pos);
                     bundle.putInt("id",id);
                     bundle.putString("name",name);
@@ -123,31 +113,10 @@ public class ModifyPeopleActivity extends BaseActivity {
                     bundle.putString("addr",addr);
                     bundle.putString("email",email);
                     bundle.putString("no",no);
-                    bundle.putInt("btn",0);
                     intent.putExtras(bundle);
                     setResult(1,intent);
                     modData();
                 }
-                break;
-            case R.id.del_btn:
-                Intent intent=new Intent();
-                Bundle bundle=new Bundle();
-                id=Integer.valueOf(mID.getText().toString());
-                name=mName.getText().toString();
-                tel=mTel.getText().toString();
-                addr=mAddr.getText().toString();
-                email=mEmail.getText().toString();
-                bundle.putInt("pos",pos);
-                bundle.putInt("id",id);
-                bundle.putString("name",name);
-                bundle.putString("tel",tel);
-                bundle.putString("addr",addr);
-                bundle.putString("email",email);
-                bundle.putString("no",no);
-                bundle.putInt("btn",1);
-                intent.putExtras(bundle);
-                setResult(1,intent);
-                delData();
                 break;
         }
 
@@ -169,8 +138,10 @@ public class ModifyPeopleActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            ModifyPeopleActivity.this.finish();
+            ModifyLoginPeopleActivity.this.finish();
         }
         return  false;
     }
+
+
 }

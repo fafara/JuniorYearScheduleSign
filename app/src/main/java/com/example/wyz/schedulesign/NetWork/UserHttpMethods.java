@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
  * Created by WYZ on 2017/5/5.
  */
 
-public class HttpMethods {
+public class UserHttpMethods {
 
 
     private static final int DEFAULT_TIMEOUT = 5;
@@ -29,7 +29,7 @@ public class HttpMethods {
     /**
      * 设置Retrofit网络请求
      */
-    private HttpMethods(){
+    private UserHttpMethods(){
         OkHttpClient.Builder httpClientBuilder=new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         mRetrofit=new Retrofit.Builder()
@@ -45,9 +45,9 @@ public class HttpMethods {
      * 单例模式
      */
     private  static  class  SingletonHolder{
-        private  static  final  HttpMethods INSTANCE=new HttpMethods();
+        private  static  final UserHttpMethods INSTANCE=new UserHttpMethods();
     }
-    public  static  HttpMethods getInstance(){
+    public  static UserHttpMethods getInstance(){
         return  SingletonHolder.INSTANCE;
     }
 
@@ -81,5 +81,13 @@ public class HttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+    public  void getIsDeleteSuccess(Subscriber<LoginEntity> subscriber,String name){
+        mPeopleService.getIsDeleteSuccess(name)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 
 }

@@ -27,6 +27,8 @@
         <activity android:name=".Mvp.Activity.MainViewActivity"/>
         <activity android:name=".Mvp.Activity.ModifyPeopleActivity">
         </activity>
+        <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity">
+        </activity>
     </application>
 
 </manifest>

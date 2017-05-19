@@ -20,5 +20,7 @@ public interface PeopleService {
     Observable<LoginEntity> getIsModSuccess(@Query("emp_id")int id,@Query("emp_name")String name,@Query("emp_tel_num")String tel,@Query("emp_addr")String addr,@Query("emp_email") String email);
     @GET("queryUser")
     Observable<PeopleEntity> getAllUserInfo();
+    @GET("daleteUser")
+    Observable<LoginEntity> getIsDeleteSuccess(@Query("username")String name);
 
 }

@@ -19,7 +19,7 @@ import android.widget.EditText;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
-import com.example.wyz.schedulesign.NetWork.HttpMethods;
+import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
 import com.example.wyz.schedulesign.Util.MyLog;
@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity{
 
             }
         };
-        HttpMethods.getInstance().getIsLoginSuccess(mSubscriber,name,password);
+        UserHttpMethods.getInstance().getIsLoginSuccess(mSubscriber,name,password);
     }
 
     @OnClick({R.id.bt_go, R.id.fab})

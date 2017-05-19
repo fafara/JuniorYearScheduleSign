@@ -15,7 +15,7 @@ import com.example.wyz.schedulesign.Mvp.Adapter.People_Adapter;
 import com.example.wyz.schedulesign.Mvp.Entity.Item_PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.Fragment.base.BaseFragment;
-import com.example.wyz.schedulesign.NetWork.HttpMethods;
+import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyLog;
 import com.nispok.snackbar.Snackbar;
@@ -27,6 +27,110 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscriber;
+
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
+import static java.security.AccessController.getContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +158,7 @@ public class PeopleFragment extends BaseFragment {
         if (loginName != null ) {
             initViews();
         }
-        initViews();
+        //initViews();
         return view;
     }
 
@@ -70,6 +174,7 @@ public class PeopleFragment extends BaseFragment {
                 bundle.putInt("code",1);
                 bundle.putInt("pos",position);
                 bundle.putInt("id",item_peopleEntity.getId());
+                bundle.putString("no",item_peopleEntity.getEmp_no());
                 bundle.putString("name",item_peopleEntity.getName());
                 bundle.putString("tel",item_peopleEntity.getTel());
                 bundle.putString("addr", item_peopleEntity.getEmp_addr());
@@ -107,7 +212,7 @@ public class PeopleFragment extends BaseFragment {
 
             }
         };
-        HttpMethods.getInstance().getLoginUserInfo(mSubscriber,loginName);
+        UserHttpMethods.getInstance().getLoginUserInfo(mSubscriber,loginName);
     }
     public  void getAllUserInfo(){
         mSubscriber=new Subscriber<PeopleEntity>() {
@@ -132,6 +237,7 @@ public class PeopleFragment extends BaseFragment {
                       if(id!=peopleEntity.getDetail().get(i).getEmp_id()){
                           mItem_peopleEntity.setName(peopleEntity.getDetail().get(i).getEmp_name());
                           mItem_peopleEntity.setTel(peopleEntity.getDetail().get(i).getEmp_tel_num());
+                          mItem_peopleEntity.setEmp_no(peopleEntity.getDetail().get(i).getEmp_no());
                           mItem_peopleEntity.setId(peopleEntity.getDetail().get(i).getEmp_id());
                           mItem_peopleEntity.setEmp_addr(peopleEntity.getDetail().get(i).getEmp_addr());
                           mItem_peopleEntity.setEmp_email(peopleEntity.getDetail().get(i).getEmp_email());
@@ -141,7 +247,7 @@ public class PeopleFragment extends BaseFragment {
                   }
             }
         };
-        HttpMethods.getInstance().getAllUserInfo(mSubscriber);
+        UserHttpMethods.getInstance().getAllUserInfo(mSubscriber);
     }
 
     @Override
@@ -153,14 +259,29 @@ public class PeopleFragment extends BaseFragment {
                     case 1:
                         Bundle bundle=data.getExtras();
                         int pos=bundle.getInt("pos");
-                        mItem_peopleEntities.get(pos).setId(bundle.getInt("id"));
-                        mItem_peopleEntities.get(pos).setName(bundle.getString("name"));
-                        mItem_peopleEntities.get(pos).setTel(bundle.getString("tel"));
-                        mItem_peopleEntities.get(pos).setEmp_addr(bundle.getString("addr"));
-                        mItem_peopleEntities.get(pos).setEmp_email(bundle.getString("email"));
-                        myAdapter.notifyDataSetChanged();
-                        break;
-
+                        int btn=bundle.getInt("btn");
+                        switch (btn){
+                            //修改信息
+                            case 0:
+                                mItem_peopleEntities.get(pos).setId(bundle.getInt("id"));
+                                mItem_peopleEntities.get(pos).setName(bundle.getString("name"));
+                                mItem_peopleEntities.get(pos).setEmp_no(bundle.getString("no"));
+                                mItem_peopleEntities.get(pos).setTel(bundle.getString("tel"));
+                                mItem_peopleEntities.get(pos).setEmp_addr(bundle.getString("addr"));
+                                mItem_peopleEntities.get(pos).setEmp_email(bundle.getString("email"));
+                                myAdapter.notifyDataSetChanged();
+                                break;
+                            //删除信息
+                            case 1:
+                                for(int i=0;i<mItem_peopleEntities.size();i++){
+                                    if(bundle.getInt("id")==mItem_peopleEntities.get(i).getId()){
+                                        mItem_peopleEntities.remove(i);
+                                        break;
+                                    }
+                                }
+                                myAdapter.notifyDataSetChanged();
+                                break;
+                        }
                 }
 
                 break;
