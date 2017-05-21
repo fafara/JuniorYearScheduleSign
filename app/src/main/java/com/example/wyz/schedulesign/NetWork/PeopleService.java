@@ -22,5 +22,7 @@ public interface PeopleService {
     Observable<PeopleEntity> getAllUserInfo();
     @GET("daleteUser")
     Observable<LoginEntity> getIsDeleteSuccess(@Query("username")String name);
+    @GET("register")
+    Observable<LoginEntity> getIsAddSuccess(@Query("username") String username,@Query("name") String name,@Query("tel") String  tel,@Query("address")String addr,@Query("email")String email);
 
 }

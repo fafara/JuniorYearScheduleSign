@@ -2,6 +2,7 @@ package com.example.wyz.schedulesign.Mvp.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,38 +25,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscriber;
 
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -77,9 +46,21 @@ public class FilmFragment extends BaseFragment {
     }
 
     @Override
-    public void initViews() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         loadData();
     }
+
+    @Override
+    public void initViews() {
+        //loadData();
+    }
+
+    @Override
+    public void refreshViews() {
+
+    }
+
     private  void initListView(){
         Film_Adapter film_adapter=new Film_Adapter(getContext(),mFilmEntityList);
         mListView.setAdapter(film_adapter);

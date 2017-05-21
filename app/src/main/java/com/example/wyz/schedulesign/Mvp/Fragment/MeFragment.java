@@ -10,73 +10,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wyz.schedulesign.Mvp.Activity.ModifyLoginPeopleActivity;
+import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.Fragment.base.BaseFragment;
-import com.example.wyz.schedulesign.MyApplication;
 import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyLog;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
-
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
-import static java.security.AccessController.getContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,39 +43,30 @@ public class MeFragment extends BaseFragment {
     TextView mEmail;
     @InjectView(R.id.number)
     TextView mNumber;
-
     Subscriber<PeopleEntity> mSubscriber;
-    String loginName;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View  view=inflater.inflate(R.layout.fragment_me, container, false);
         ButterKnife.inject(this,view);
-        isRequest();
+        initViews();
         return view;
     }
-    private  void isRequest(){
-        if(MyApplication.mDetail==null){
-            Bundle bundle=getArguments();
-            loginName=bundle.getString("loginName");
-            if (loginName != null ) {
-                initViews();
-            }
-        }else{
-            mID.setText(String.valueOf(MyApplication.mDetail.getEmp_id()));
-            mName.setText(MyApplication.mDetail.getEmp_name());
-            mTel.setText(MyApplication.mDetail.getEmp_tel_num());
-            mAddr.setText(MyApplication.mDetail.getEmp_addr());
-            mEmail.setText(MyApplication.mDetail.getEmp_email());
-            mNumber.setText(String.valueOf(MyApplication.mDetail.getEmp_no()));
+    @Override
+    public void initViews() {
+        if(LoginSingleton.getInstance()!=null){
+            mID.setText(String.valueOf(LoginSingleton.getInstance().getId()));
+            mName.setText(LoginSingleton.getInstance().getName());
+            mTel.setText(LoginSingleton.getInstance().getTel());
+            mAddr.setText(LoginSingleton.getInstance().getAddr());
+            mEmail.setText(LoginSingleton.getInstance().getEmail());
+            mNumber.setText(String.valueOf(LoginSingleton.getInstance().getUsername()));
         }
     }
 
     @Override
-    public void initViews() {
+    public void refreshViews() {
         loadData();
     }
 
@@ -135,7 +74,9 @@ public class MeFragment extends BaseFragment {
         mSubscriber=new Subscriber<PeopleEntity>() {
             @Override
             public void onCompleted() {
-
+                if(mID!=null){
+                    initViews();
+                }
             }
 
             @Override
@@ -147,16 +88,19 @@ public class MeFragment extends BaseFragment {
             @Override
             public void onNext(PeopleEntity peopleEntity) {
                 MyLog.d(TAG,"next");
-                MyApplication.mDetail=peopleEntity.getDetail().get(0);
-                mID.setText(String.valueOf(MyApplication.mDetail.getEmp_id()));
-                mName.setText(MyApplication.mDetail.getEmp_name());
-                mTel.setText(MyApplication.mDetail.getEmp_tel_num());
-                mAddr.setText(MyApplication.mDetail.getEmp_addr());
-                mEmail.setText(MyApplication.mDetail.getEmp_email());
-                mNumber.setText(String.valueOf(MyApplication.mDetail.getEmp_no()));
+                PeopleEntity.MDetail mDetail=peopleEntity.getDetail().get(0);
+                LoginSingleton.getInstance().setId(mDetail.getEmp_id());
+                LoginSingleton.getInstance().setAddr(mDetail.getEmp_addr());
+                LoginSingleton.getInstance().setUsername(mDetail.getEmp_no());
+                LoginSingleton.getInstance().setEmail(mDetail.getEmp_email());
+                LoginSingleton.getInstance().setTel(mDetail.getEmp_tel_num());
+                LoginSingleton.getInstance().setName(mDetail.getEmp_name());
             }
         };
-        UserHttpMethods.getInstance().getLoginUserInfo(mSubscriber,loginName);
+        if(!Objects.equals(LoginSingleton.getInstance().getUsername(), "")){
+            UserHttpMethods.getInstance().getLoginUserInfo(mSubscriber,LoginSingleton.getInstance().getUsername());
+        }
+
     }
     @OnClick({R.id.one,R.id.two,R.id.three,R.id.four,R.id.five})
     public  void onClick(View view){
@@ -164,8 +108,8 @@ public class MeFragment extends BaseFragment {
         Bundle bundle=new Bundle();
         bundle.putInt("code",2);
         bundle.putInt("id",Integer.valueOf(mID.getText().toString()));
-        if(MyApplication.mDetail!=null){
-            bundle.putString("no",MyApplication.mDetail.getEmp_no());
+        if(LoginSingleton.getInstance()!=null){
+            bundle.putString("no",LoginSingleton.getInstance().getUsername());
         }
         bundle.putString("name",mName.getText().toString());
         bundle.putString("tel",mTel.getText().toString());
@@ -179,27 +123,11 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case 2:
-                switch (resultCode)
-                {
-                    case 2:
-                        Bundle bundle=data.getExtras();
-                        mID.setText(String.valueOf(bundle.getInt("id")));
-                        mName.setText(bundle.getString("name"));
-                        mTel.setText(bundle.getString("tel"));
-                        mAddr.setText(bundle.getString("addr"));
-                        mEmail.setText(bundle.getString("email"));
-
-                        MyApplication.mDetail.setEmp_no(bundle.getString("no"));
-                        MyApplication.mDetail.setEmp_name(bundle.getString("name"));
-                        MyApplication.mDetail.setEmp_tel_num(bundle.getString("tel"));
-                        MyApplication.mDetail.setEmp_addr(bundle.getString("addr"));
-                        MyApplication.mDetail.setEmp_email(bundle.getString("email"));
-                        break;
-
-                }
-
+        switch (resultCode){
+            case  2:
+                refreshViews();
+                break;
+            case 0:
                 break;
         }
     }

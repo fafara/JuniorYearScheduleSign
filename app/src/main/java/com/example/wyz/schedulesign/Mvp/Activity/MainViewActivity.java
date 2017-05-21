@@ -1,22 +1,17 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
+import com.example.wyz.schedulesign.Mvp.Adapter.MyViewPagerAdapter;
 import com.example.wyz.schedulesign.Mvp.Fragment.FilmFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.MeFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.PeopleFragment;
@@ -30,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class MainViewActivity extends AppCompatActivity {
+public class MainViewActivity extends BaseActivity {
     @InjectView(R.id.film)
     LinearLayout mFilm;
     @InjectView(R.id.people)
@@ -46,7 +41,6 @@ public class MainViewActivity extends AppCompatActivity {
     MeFragment mMeFragment;
     PeopleFragment mPeopleFragment;
     private List<Fragment> mFragmentList;
-    private  String loginName;
     private  int currentPage=-1;
 
     @Override
@@ -54,9 +48,7 @@ public class MainViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainview);
         ButterKnife.inject(this);
-        enterHandle();
-        initViewPager();
-
+        initView();
     }
     @OnClick({R.id.film,R.id.people,R.id.me})
     public void onClick(View view){
@@ -72,49 +64,37 @@ public class MainViewActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    private  void loadFragmentData(Fragment fragment){
-        Bundle bundle=new Bundle();
-        bundle.putString("loginName",loginName);
-        fragment.setArguments(bundle);
-    }
-    private  void enterHandle(){
+    private  void enterAnimation(){
         Explode explode = new Explode();
         explode.setDuration(500);
         getWindow().setExitTransition(explode);
         getWindow().setEnterTransition(explode);
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        String name=bundle.getString("name");
-        loginName=name;
-        String password=bundle.getString("password");
-        Boolean isRemember=bundle.getBoolean("isRemember");
-        SavePassWord(name,password,isRemember);
-        Toast.makeText(this,name+password,Toast.LENGTH_LONG).show();
-    }
-    private void SavePassWord(String name,String password,Boolean isRemember){
-        //SharedPreferences sharedPreferences=getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor=getSharedPreferences("schedule_info", Context.MODE_PRIVATE).edit();
-        editor.putString("loginName",name);
-        editor.putString("loginPassword",password);
-        editor.putBoolean("loginStatus",isRemember);
-        editor.apply();
     }
     private  void initViewPager(){
         mFragmentList=new ArrayList<>();
         mFilmFragment=new FilmFragment();
         mPeopleFragment=new PeopleFragment();
-        loadFragmentData(mPeopleFragment);
         mMeFragment=new MeFragment();
-        loadFragmentData(mMeFragment);
         mFragmentList.add(mFilmFragment);
         mFragmentList.add(mPeopleFragment);
         mFragmentList.add(mMeFragment);
 
-        mViewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager(),mFragmentList));
         mViewPager.addOnPageChangeListener(new MyViewPagerPageChangeListener());
 
     }
+
+    @Override
+    public void initActionBar() {
+
+    }
+
+    @Override
+    public void initView() {
+        enterAnimation();
+        initViewPager();
+    }
+
     private  class  MyViewPagerPageChangeListener implements  ViewPager.OnPageChangeListener{
 
         @Override
@@ -182,22 +162,7 @@ public class MainViewActivity extends AppCompatActivity {
                 break;
         }
     }
-    private  class  MyViewPagerAdapter extends FragmentStatePagerAdapter{
 
-        public MyViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){

@@ -5,7 +5,6 @@ package com.example.wyz.schedulesign.Mvp.Entity;
  */
 
 public class Item_PeopleEntity {
-    private  String name;
     private String tel;
     private int id;
     private String emp_no;
@@ -63,13 +62,6 @@ public class Item_PeopleEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getTel() {
         return tel;

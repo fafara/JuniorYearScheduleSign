@@ -1,15 +1,19 @@
 package com.example.wyz.schedulesign.Mvp.Adapter;
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.wyz.schedulesign.Mvp.Entity.Item_PeopleEntity;
 import com.example.wyz.schedulesign.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,14 +22,22 @@ import java.util.List;
 
 public class People_Adapter extends  BaseAdapter {
     private  Context mContext;
-    private List<Item_PeopleEntity> mItem_peopleEntities;
+    public static List<Item_PeopleEntity> mItem_peopleEntities;
     private LayoutInflater  mLayoutInflater;
+    private  FloatingActionButton mFab;
+    public  static  List<Integer> sIntegers=new ArrayList<>();
     MyViewHolder mViewHolder=null;
+
     public People_Adapter(Context context,List<Item_PeopleEntity> item_peopleEntities) {
+       this(context,item_peopleEntities,null);
+    }
+    public  People_Adapter(Context context, List<Item_PeopleEntity> item_peopleEntities, FloatingActionButton fab){
         this.mContext=context;
-        this.mItem_peopleEntities=item_peopleEntities;
+        mItem_peopleEntities=item_peopleEntities;
+        mFab=fab;
         mLayoutInflater=LayoutInflater.from(mContext);
     }
+
 
     @Override
     public int getCount() {
@@ -43,23 +55,46 @@ public class People_Adapter extends  BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView==null){
             mViewHolder=new MyViewHolder();
             convertView=mLayoutInflater.inflate(R.layout.item_people,null);
             mViewHolder.mName=(TextView)convertView.findViewById(R.id.name);
             mViewHolder.mTel=(TextView)convertView.findViewById(R.id.tel);
+            mViewHolder.mUsername=(TextView)convertView.findViewById(R.id.username);
+            mViewHolder.mCheckBox=(CheckBox)convertView.findViewById(R.id.checkbox);
+
             convertView.setTag(mViewHolder);
         }else {
             mViewHolder=(MyViewHolder) convertView.getTag();
         }
-        mViewHolder.mName.setText(mItem_peopleEntities.get(position).getName());
+
+        mViewHolder.mName.setText(mItem_peopleEntities.get(position).getEmp_name());
         mViewHolder.mTel.setText(mItem_peopleEntities.get(position).getTel());
+        mViewHolder.mUsername.setText(mItem_peopleEntities.get(position).getEmp_no());
+        mViewHolder.mCheckBox.setChecked(false);
+        mViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    sIntegers.add(Integer.valueOf(position));
+                }else{
+                    sIntegers.remove(Integer.valueOf(position));
+                }
+                if(sIntegers.size()==0){
+                    mFab.setVisibility(View.GONE);
+                }else if(sIntegers.size()>0){
+                    mFab.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return convertView;
     }
     private  class  MyViewHolder{
+        public TextView mUsername;
         public TextView mName;
         public TextView mTel;
+        private CheckBox mCheckBox;
 
     }
 

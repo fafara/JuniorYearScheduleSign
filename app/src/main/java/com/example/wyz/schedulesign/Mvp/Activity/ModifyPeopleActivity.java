@@ -1,6 +1,5 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -39,7 +38,6 @@ public class ModifyPeopleActivity extends BaseActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     int id;
-    int requestcode;
     int pos=-5;
     String name,tel,addr,email,no;
 
@@ -51,7 +49,7 @@ public class ModifyPeopleActivity extends BaseActivity {
         setContentView(R.layout.activity_modify_people);
         ButterKnife.inject(this);
         initActionBar();
-        loadData();
+        initView();
     }
     private  void dataResponse(){
         mSubscriber=new Subscriber<LoginEntity>() {
@@ -62,92 +60,54 @@ public class ModifyPeopleActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-                SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改失败:"+e.getMessage()));
+                SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("操作失败:"+e.getMessage()));
             }
 
             @Override
             public void onNext(LoginEntity loginEntity) {
                 switch (loginEntity.getDetail().getStatus()){
                     case 1:
-
-                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改成功"));
+                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("操作成功"));
+                        setResult(1);
                         ModifyPeopleActivity.this.finish();
                         break;
                     case  0:
-                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("修改失败"));
+                        SnackbarManager.show(Snackbar.with(ModifyPeopleActivity.this).text("操作失败"));
                         break;
                 }
 
             }
         };
     }
-    private  void delData(){
+    private  void delNetRequest(){
         dataResponse();
         UserHttpMethods.getInstance().getIsDeleteSuccess(mSubscriber,no);
     }
-    private  void modData(){
+    private  void modNetRequest(){
         dataResponse();
         UserHttpMethods.getInstance().getIsModSuccess(mSubscriber,id,name,tel,addr,email);
     }
-    private void loadData() {
-       Bundle bundle=getIntent().getExtras();
-        pos=bundle.getInt("pos");
-        mID.setText(String.valueOf(bundle.getInt("id")));
-        mName.setText(bundle.getString("name"));
-        mTel.setText(bundle.getString("tel"));
-        mAddr.setText(bundle.getString("addr"));
-        mEmail.setText(bundle.getString("email"));
-        no=bundle.getString("no");
-    }
+
 
     @OnClick({R.id.btn,R.id.del_btn})
     public  void onClick(View view){
+        id=Integer.valueOf(mID.getText().toString());
+        name=mName.getText().toString();
+        tel=mTel.getText().toString();
+        addr=mAddr.getText().toString();
+        email=mEmail.getText().toString();
         switch (view.getId()){
             case R.id.btn:
                 if(mID.getText().toString().equals("")||mName.getText().toString().equals("")||mTel.getText().toString().equals("")||mAddr.getText().toString().equals("")||mEmail.getText().toString().equals(""))
                 {
                     Toast.makeText(this,"请检查信息的完整性",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent=new Intent();
-                    Bundle bundle=new Bundle();
-                    id=Integer.valueOf(mID.getText().toString());
-                    name=mName.getText().toString();
-                    tel=mTel.getText().toString();
-                    addr=mAddr.getText().toString();
-                    email=mEmail.getText().toString();
 
-                    bundle.putInt("pos",pos);
-                    bundle.putInt("id",id);
-                    bundle.putString("name",name);
-                    bundle.putString("tel",tel);
-                    bundle.putString("addr",addr);
-                    bundle.putString("email",email);
-                    bundle.putString("no",no);
-                    bundle.putInt("btn",0);
-                    intent.putExtras(bundle);
-                    setResult(1,intent);
-                    modData();
+                    modNetRequest();
                 }
                 break;
             case R.id.del_btn:
-                Intent intent=new Intent();
-                Bundle bundle=new Bundle();
-                id=Integer.valueOf(mID.getText().toString());
-                name=mName.getText().toString();
-                tel=mTel.getText().toString();
-                addr=mAddr.getText().toString();
-                email=mEmail.getText().toString();
-                bundle.putInt("pos",pos);
-                bundle.putInt("id",id);
-                bundle.putString("name",name);
-                bundle.putString("tel",tel);
-                bundle.putString("addr",addr);
-                bundle.putString("email",email);
-                bundle.putString("no",no);
-                bundle.putInt("btn",1);
-                intent.putExtras(bundle);
-                setResult(1,intent);
-                delData();
+                delNetRequest();
                 break;
         }
 
@@ -164,6 +124,18 @@ public class ModifyPeopleActivity extends BaseActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void initView() {
+        Bundle bundle=getIntent().getExtras();
+        pos=bundle.getInt("pos");
+        mID.setText(String.valueOf(bundle.getInt("id")));
+        mName.setText(bundle.getString("name"));
+        mTel.setText(bundle.getString("tel"));
+        mAddr.setText(bundle.getString("addr"));
+        mEmail.setText(bundle.getString("email"));
+        no=bundle.getString("no");
     }
 
     @Override

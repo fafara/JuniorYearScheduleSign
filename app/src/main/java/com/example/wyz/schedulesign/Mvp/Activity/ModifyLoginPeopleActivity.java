@@ -1,6 +1,5 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -37,10 +36,7 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
     int id;
-    int requestcode;
-    int pos=-5;
-    String name,tel,addr,email,no;
-
+    String name,tel,addr,email,username;
 
     Subscriber<LoginEntity> mSubscriber;
     @Override
@@ -49,9 +45,9 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
         setContentView(R.layout.activity_modify_login_people);
         ButterKnife.inject(this);
         initActionBar();
-        loadData();
+        initView();
     }
-    private  void modData(){
+    private  void modNetRequest(){
         mSubscriber=new Subscriber<LoginEntity>() {
             @Override
             public void onCompleted() {
@@ -69,6 +65,7 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
                     case 1:
 
                         SnackbarManager.show(Snackbar.with(ModifyLoginPeopleActivity.this).text("修改成功"));
+                        setResult(2);
                         ModifyLoginPeopleActivity.this.finish();
                         break;
                     case  0:
@@ -80,16 +77,6 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
         };
         UserHttpMethods.getInstance().getIsModSuccess(mSubscriber,id,name,tel,addr,email);
     }
-    private void loadData() {
-        Bundle bundle=getIntent().getExtras();
-        pos=bundle.getInt("pos");
-        mID.setText(String.valueOf(bundle.getInt("id")));
-        mName.setText(bundle.getString("name"));
-        mTel.setText(bundle.getString("tel"));
-        mAddr.setText(bundle.getString("addr"));
-        mEmail.setText(bundle.getString("email"));
-        no=bundle.getString("no");
-    }
 
     @OnClick({R.id.btn})
     public  void onClick(View view){
@@ -99,23 +86,13 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
                 {
                     Toast.makeText(this,"请检查信息的完整性",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent=new Intent();
-                    Bundle bundle=new Bundle();
+
                     id=Integer.valueOf(mID.getText().toString());
                     name=mName.getText().toString();
                     tel=mTel.getText().toString();
                     addr=mAddr.getText().toString();
                     email=mEmail.getText().toString();
-                    bundle.putInt("pos",pos);
-                    bundle.putInt("id",id);
-                    bundle.putString("name",name);
-                    bundle.putString("tel",tel);
-                    bundle.putString("addr",addr);
-                    bundle.putString("email",email);
-                    bundle.putString("no",no);
-                    intent.putExtras(bundle);
-                    setResult(1,intent);
-                    modData();
+                    modNetRequest();
                 }
                 break;
         }
@@ -133,6 +110,17 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void initView() {
+        Bundle bundle=getIntent().getExtras();
+        mID.setText(String.valueOf(bundle.getInt("id")));
+        mName.setText(bundle.getString("name"));
+        mTel.setText(bundle.getString("tel"));
+        mAddr.setText(bundle.getString("addr"));
+        mEmail.setText(bundle.getString("email"));
+        username=bundle.getString("no");
     }
 
     @Override

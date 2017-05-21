@@ -29,6 +29,10 @@
         </activity>
         <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity">
         </activity>
+        <activity android:name=".Mvp.Activity.Search_PeopleActivity_Show">
+        </activity>
+        <activity android:name=".Mvp.Activity.AddPeopleActivity">
+        </activity>
     </application>
 
 </manifest>

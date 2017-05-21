@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.EditText;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
@@ -37,8 +37,6 @@ import rx.Subscriber;
 
 public class LoginActivity extends BaseActivity{
     private final String TAG="LoginActivity";
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
     @InjectView(R.id.et_username)
     EditText etUsername;
     @InjectView(R.id.et_password)
@@ -54,7 +52,7 @@ public class LoginActivity extends BaseActivity{
 
     Subscriber<LoginEntity> mSubscriber;
 
-    private  String name;
+    private  String username;
     private  String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +60,10 @@ public class LoginActivity extends BaseActivity{
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         initActionBar();
-        loadLoginInfo();
+        initView();
     }
 
-    private void loadLoginInfo() {
+    private void ReadPassword() {
         Boolean isRemember;
         SharedPreferences sp=getSharedPreferences("schedule_info", Context.MODE_PRIVATE);
         isRemember=sp.getBoolean("loginStatus",false);
@@ -77,13 +75,19 @@ public class LoginActivity extends BaseActivity{
 
 
     }
-
-    private  void  getLoginInfo(){
+    private void SavePassWord(String name,String password,Boolean isRemember){
+        //SharedPreferences sharedPreferences=getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor=getSharedPreferences("schedule_info", Context.MODE_PRIVATE).edit();
+        editor.putString("loginName",name);
+        editor.putString("loginPassword",password);
+        editor.putBoolean("loginStatus",isRemember);
+        editor.apply();
+    }
+    private  void  getLoginResult(){
         mSubscriber=new Subscriber<LoginEntity>() {
             @Override
             public void onCompleted() {
                 MyLog.d(TAG,"登录完成");
-                //SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录成功!"));
             }
 
             @Override
@@ -99,32 +103,36 @@ public class LoginActivity extends BaseActivity{
                         SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录账号或密码错误"));
                         break;
                     case 1:
-                        Explode explode = new Explode();
-                        explode.setDuration(500);
-
-                        //设置退出效果
-                        getWindow().setExitTransition(explode);
-                        //设置进入动画
-                        getWindow().setEnterTransition(explode);
-                        //共享元素跳转
-                        ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
-                        Intent i2 = new Intent(LoginActivity.this,MainViewActivity.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putString("name",name);
-                        bundle.putString("password",password);
-                        bundle.putBoolean("isRemember",mCheckBox.isChecked());
-                        i2.putExtras(bundle);
-                        startActivity(i2, oc2.toBundle());
-                        finish();
+                        SavePassWord(username,password,mCheckBox.isChecked());
+                        getLoginInfo();
+                        enterMainView();
                         break;
-                    case 2:break;
                 }
 
             }
         };
-        UserHttpMethods.getInstance().getIsLoginSuccess(mSubscriber,name,password);
+        UserHttpMethods.getInstance().getIsLoginSuccess(mSubscriber,username,password);
     }
 
+    private  void getLoginInfo(){
+       Subscriber<PeopleEntity.MDetail> subscriber=new Subscriber<PeopleEntity.MDetail>() {
+           @Override
+           public void onCompleted() {
+
+           }
+
+           @Override
+           public void onError(Throwable e) {
+
+           }
+
+           @Override
+           public void onNext(PeopleEntity.MDetail mDetail) {
+
+           }
+       };
+       UserHttpMethods.getInstance().getLoginUserInfo(subscriber,username);
+    }
     @OnClick({R.id.bt_go, R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -142,12 +150,10 @@ public class LoginActivity extends BaseActivity{
                 }
                 break;
             case R.id.bt_go:
-                name=etUsername.getText().toString();
+                username=etUsername.getText().toString();
                 password=etPassword.getText().toString();
-                if(!name.equals("")&&!password.equals("")){
-
-                    getLoginInfo();
-
+                if(!username.equals("")&&!password.equals("")){
+                    getLoginResult();
                 }
                 else{
                     SnackbarManager.show(com.nispok.snackbar.Snackbar.with(this).text("用户名或密码不能为空"));
@@ -168,8 +174,25 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void initActionBar() {
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
+
+    @Override
+    public void initView() {
+        ReadPassword();
+    }
+    private  void enterMainView(){
+        Explode explode = new Explode();
+        explode.setDuration(500);
+        //设置退出效果
+        getWindow().setExitTransition(explode);
+        //设置进入动画
+        getWindow().setEnterTransition(explode);
+        //共享元素跳转
+        ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
+        Intent i2 = new Intent(LoginActivity.this,MainViewActivity.class);
+        startActivity(i2, oc2.toBundle());
+        LoginActivity.this.finish();
+    }
+
 }
