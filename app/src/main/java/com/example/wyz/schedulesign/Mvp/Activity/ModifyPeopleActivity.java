@@ -16,6 +16,9 @@ import com.example.wyz.schedulesign.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -81,7 +84,9 @@ public class ModifyPeopleActivity extends BaseActivity {
     }
     private  void delNetRequest(){
         dataResponse();
-        UserHttpMethods.getInstance().getIsDeleteSuccess(mSubscriber,no);
+        List<String> list=new ArrayList<>();
+        list.add(no);
+        UserHttpMethods.getInstance().getIsDeleteSuccess(mSubscriber,list);
     }
     private  void modNetRequest(){
         dataResponse();

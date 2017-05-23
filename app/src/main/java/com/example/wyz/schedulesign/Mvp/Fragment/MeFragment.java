@@ -43,7 +43,7 @@ public class MeFragment extends BaseFragment {
     TextView mEmail;
     @InjectView(R.id.number)
     TextView mNumber;
-    Subscriber<PeopleEntity> mSubscriber;
+    Subscriber<PeopleEntity.MDetail> mSubscriber;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class MeFragment extends BaseFragment {
     }
 
     private void loadData() {
-        mSubscriber=new Subscriber<PeopleEntity>() {
+        Subscriber<PeopleEntity.MDetail> subscriber=new Subscriber<PeopleEntity.MDetail>() {
             @Override
             public void onCompleted() {
                 if(mID!=null){
@@ -86,19 +86,12 @@ public class MeFragment extends BaseFragment {
             }
 
             @Override
-            public void onNext(PeopleEntity peopleEntity) {
-                MyLog.d(TAG,"next");
-                PeopleEntity.MDetail mDetail=peopleEntity.getDetail().get(0);
-                LoginSingleton.getInstance().setId(mDetail.getEmp_id());
-                LoginSingleton.getInstance().setAddr(mDetail.getEmp_addr());
-                LoginSingleton.getInstance().setUsername(mDetail.getEmp_no());
-                LoginSingleton.getInstance().setEmail(mDetail.getEmp_email());
-                LoginSingleton.getInstance().setTel(mDetail.getEmp_tel_num());
-                LoginSingleton.getInstance().setName(mDetail.getEmp_name());
+            public void onNext(PeopleEntity.MDetail item_peopleEntities) {
+
             }
         };
         if(!Objects.equals(LoginSingleton.getInstance().getUsername(), "")){
-            UserHttpMethods.getInstance().getLoginUserInfo(mSubscriber,LoginSingleton.getInstance().getUsername());
+            UserHttpMethods.getInstance().getLoginUserInfo(subscriber,LoginSingleton.getInstance().getUsername());
         }
 
     }

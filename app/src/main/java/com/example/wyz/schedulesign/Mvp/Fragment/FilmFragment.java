@@ -32,7 +32,7 @@ public class FilmFragment extends BaseFragment {
     final  String TAG="FilmFragment";
     @InjectView(R.id.listView)
     ListView mListView;
-    Subscriber<FilmEntity> mSubscriber;
+    Subscriber<List<FilmEntity.MDetail>> mSubscriber;
     List<FilmEntity.MDetail> mFilmEntityList=new ArrayList<>();
 
     @Override
@@ -67,7 +67,7 @@ public class FilmFragment extends BaseFragment {
 
     }
     private  void loadData(){
-        mSubscriber=new Subscriber<FilmEntity>() {
+        mSubscriber=new Subscriber<List<FilmEntity.MDetail>>() {
             @Override
             public void onCompleted() {
                 initListView();
@@ -80,18 +80,8 @@ public class FilmFragment extends BaseFragment {
             }
 
             @Override
-            public void onNext(FilmEntity filmEntity) {
-                for(int i=0;i<filmEntity.getDetail().size();i++){
-                    FilmEntity.MDetail mDetail=new FilmEntity.MDetail();
-                    mDetail.setFilm_id(filmEntity.getDetail().get(i).getFilm_id());
-                    mDetail.setFilm_name(filmEntity.getDetail().get(i).getFilm_name());
-                    mDetail.setFilm_tostar(filmEntity.getDetail().get(i).getFilm_tostar());
-                    mDetail.setFilm_release(filmEntity.getDetail().get(i).getFilm_release());
-                    mDetail.setFilm_hourlong(filmEntity.getDetail().get(i).getFilm_hourlong());
-                    mDetail.setFilm_type(filmEntity.getDetail().get(i).getFilm_type());
-                    mDetail.setFilm_price(filmEntity.getDetail().get(i).getFilm_price());
-                    mFilmEntityList.add(mDetail);
-                }
+            public void onNext(List<FilmEntity.MDetail> FilmEntity) {
+                mFilmEntityList=FilmEntity;
             }
         };
         FilmHttpMethods.getInstance().getAllFilmInfo(mSubscriber);

@@ -16,6 +16,9 @@ public interface PeopleService {
     Observable<LoginEntity> getIsLoginSuccess(@Query("username")String username, @Query("password")String password);
     @GET("queryUser")
     Observable<PeopleEntity> getLoginUserInfo(@Query("username")String username);
+    @GET("queryUser")
+    Observable<PeopleEntity> getUserInfo(@Query("username")String username);
+
     @GET("updataUser")
     Observable<LoginEntity> getIsModSuccess(@Query("emp_id")int id,@Query("emp_name")String name,@Query("emp_tel_num")String tel,@Query("emp_addr")String addr,@Query("emp_email") String email);
     @GET("queryUser")

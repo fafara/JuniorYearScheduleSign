@@ -18,7 +18,6 @@ import android.widget.ListView;
 import com.example.wyz.schedulesign.Mvp.Activity.AddPeopleActivity;
 import com.example.wyz.schedulesign.Mvp.Activity.ModifyPeopleActivity;
 import com.example.wyz.schedulesign.Mvp.Adapter.People_Adapter;
-import com.example.wyz.schedulesign.Mvp.Entity.Item_PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.Fragment.base.BaseFragment;
@@ -55,8 +54,8 @@ public class PeopleFragment extends BaseFragment  {
     @InjectView(R.id.fab)
     FloatingActionButton mButton;
 
-    Subscriber<PeopleEntity> mSubscriber;
-    List<Item_PeopleEntity> mItem_peopleEntities=new ArrayList<>();
+    Subscriber<List<PeopleEntity.MDetail>> mSubscriber;
+    List<PeopleEntity.MDetail> mItem_peopleEntities=new ArrayList<>();
 
     People_Adapter myAdapter=null;
     int id;
@@ -76,17 +75,17 @@ public class PeopleFragment extends BaseFragment  {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Item_PeopleEntity item_peopleEntity=mItem_peopleEntities.get(position);
+                PeopleEntity.MDetail mDetail=mItem_peopleEntities.get(position);
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putInt("code",1);
                 bundle.putInt("pos",position);
-                bundle.putInt("id",item_peopleEntity.getId());
-                bundle.putString("no",item_peopleEntity.getEmp_no());
-                bundle.putString("name",item_peopleEntity.getEmp_name());
-                bundle.putString("tel",item_peopleEntity.getTel());
-                bundle.putString("addr", item_peopleEntity.getEmp_addr());
-                bundle.putString("email",item_peopleEntity.getEmp_email());
+                bundle.putInt("id",mDetail.getEmp_id());
+                bundle.putString("no",mDetail.getEmp_no());
+                bundle.putString("name",mDetail.getEmp_name());
+                bundle.putString("tel",mDetail.getEmp_tel_num());
+                bundle.putString("addr", mDetail.getEmp_addr());
+                bundle.putString("email",mDetail.getEmp_email());
                 intent.putExtras(bundle);
                 intent.setClass(getContext(), ModifyPeopleActivity.class);
                 startActivityForResult(intent,1);
@@ -124,13 +123,14 @@ public class PeopleFragment extends BaseFragment  {
         allUserNetRequest();
     }
     public  void allUserNetRequest(){
-        mSubscriber=new Subscriber<PeopleEntity>() {
+        mSubscriber=new Subscriber<List<PeopleEntity.MDetail>>() {
             @Override
             public void onCompleted() {
                 if(mItem_peopleEntities!=null){
                     if(myAdapter==null){
                         initListView();
                     }else {
+                        People_Adapter.mItem_peopleEntities=mItem_peopleEntities;
                         myAdapter.notifyDataSetChanged();
                     }
 
@@ -142,23 +142,8 @@ public class PeopleFragment extends BaseFragment  {
                 SnackbarManager.show(Snackbar.with(getContext()).text("请求出错:"+e.getMessage()));
             }
             @Override
-            public void onNext(PeopleEntity peopleEntity) {
-
-                  for(int i=0;i<peopleEntity.getDetail().size();i++){
-
-
-                      Item_PeopleEntity mItem_peopleEntity=new Item_PeopleEntity();
-                      if(id!=peopleEntity.getDetail().get(i).getEmp_id()){
-                          mItem_peopleEntity.setEmp_name(peopleEntity.getDetail().get(i).getEmp_name());
-                          mItem_peopleEntity.setTel(peopleEntity.getDetail().get(i).getEmp_tel_num());
-                          mItem_peopleEntity.setEmp_no(peopleEntity.getDetail().get(i).getEmp_no());
-                          mItem_peopleEntity.setId(peopleEntity.getDetail().get(i).getEmp_id());
-                          mItem_peopleEntity.setEmp_addr(peopleEntity.getDetail().get(i).getEmp_addr());
-                          mItem_peopleEntity.setEmp_email(peopleEntity.getDetail().get(i).getEmp_email());
-                          mItem_peopleEntities.add(mItem_peopleEntity);
-                      }
-
-                  }
+            public void onNext(List<PeopleEntity.MDetail> item_peopleEntities) {
+                mItem_peopleEntities=item_peopleEntities;
             }
         };
         UserHttpMethods.getInstance().getAllUserInfo(mSubscriber);
@@ -170,7 +155,6 @@ public class PeopleFragment extends BaseFragment  {
             case R.id.search:
                 if(!name.equals("")){
                     mItem_peopleEntities.clear();
-                    People_Adapter.mItem_peopleEntities.clear();
                     searchRequest(name);
                 }else{
                     SnackbarManager.show(Snackbar.with(getContext()).text("请输入搜索姓名"));
@@ -183,72 +167,72 @@ public class PeopleFragment extends BaseFragment  {
                 break;
             case fab:
                 if(People_Adapter.sIntegers!=null){
-                    Subscriber<LoginEntity> subscriber=new Subscriber<LoginEntity>() {
-                        @Override
-                        public void onCompleted() {
-                            refreshViews();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(LoginEntity loginEntity) {
-                            switch (loginEntity.getDetail().getStatus()){
-                                case 1:
-                                    SnackbarManager.show(Snackbar.with(getContext()).text("操作成功"));
-                                    break;
-                                case  0:
-                                    SnackbarManager.show(Snackbar.with(getContext()).text("操作失败"));
-                                    break;
-                            }
-                        }
-                    };
-                    for(int i=0;i<People_Adapter.sIntegers.size();i++){
-                        String username=mItem_peopleEntities.get((int)People_Adapter.sIntegers.get(i)).getEmp_no();
-                        UserHttpMethods.getInstance().getIsDeleteSuccess(subscriber,username);
-                    }
+                    deleteRequest();
                 }
 
                 break;
         }
     }
+    private  void deleteRequest(){
+        Subscriber<LoginEntity> subscriber=new Subscriber<LoginEntity>() {
+            @Override
+            public void onCompleted() {
+                refreshViews();
+            }
 
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(LoginEntity loginEntity) {
+                switch (loginEntity.getDetail().getStatus()){
+                    case 1:
+                        SnackbarManager.show(Snackbar.with(getContext()).text("操作成功"));
+                        break;
+                    case  0:
+                        SnackbarManager.show(Snackbar.with(getContext()).text("操作失败"));
+                       break;
+                }
+            }
+        };
+        List<String> lists=new ArrayList<>();
+        for(int i=0;i<People_Adapter.sIntegers.size();i++){
+            String username=mItem_peopleEntities.get((int)People_Adapter.sIntegers.get(i)).getEmp_no();
+            lists.add(username);
+        }
+        UserHttpMethods.getInstance().getIsDeleteSuccess(subscriber,lists);
+    }
     private  void searchRequest(String loginName){
-      mSubscriber=new Subscriber<PeopleEntity>() {
-          @Override
-          public void onCompleted() {
-              if(mItem_peopleEntities!=null){
-                 myAdapter.notifyDataSetChanged();
-              }
-          }
+        Subscriber<List<PeopleEntity.MDetail>> subscriber=new Subscriber<List<PeopleEntity.MDetail>>() {
+            @Override
+            public void onCompleted() {
+                if(mItem_peopleEntities!=null){
+                    if(myAdapter==null){
+                        initListView();
+                    }else {
+                        People_Adapter.mItem_peopleEntities=mItem_peopleEntities;
+                        myAdapter.notifyDataSetChanged();
+                    }
 
-          @Override
-          public void onError(Throwable e) {
-              MyLog.d(TAG,"请求出错:"+e.getMessage());
-              SnackbarManager.show(Snackbar.with(getActivity()).text("请求出错："+e.getMessage()));
-          }
+                }
+            }
 
-          @Override
-          public void onNext(PeopleEntity peopleEntity) {
-              MyLog.d(TAG,"next");
-              for(int i=0;i<peopleEntity.getDetail().size();i++){
-                  Item_PeopleEntity mItem_peopleEntity=new Item_PeopleEntity();
-                  if(id!=peopleEntity.getDetail().get(i).getEmp_id()){
-                      mItem_peopleEntity.setEmp_name(peopleEntity.getDetail().get(i).getEmp_name());
-                      mItem_peopleEntity.setTel(peopleEntity.getDetail().get(i).getEmp_tel_num());
-                      mItem_peopleEntity.setEmp_no(peopleEntity.getDetail().get(i).getEmp_no());
-                      mItem_peopleEntity.setId(peopleEntity.getDetail().get(i).getEmp_id());
-                      mItem_peopleEntity.setEmp_addr(peopleEntity.getDetail().get(i).getEmp_addr());
-                      mItem_peopleEntity.setEmp_email(peopleEntity.getDetail().get(i).getEmp_email());
-                      mItem_peopleEntities.add(mItem_peopleEntity);
-                  }
-              }
-          }
-      };
-      UserHttpMethods.getInstance().getLoginUserInfo(mSubscriber,loginName);
+            @Override
+            public void onError(Throwable e) {
+                MyLog.d(TAG,"请求出错:"+e.getMessage());
+                SnackbarManager.show(Snackbar.with(getContext()).text("请求出错:"+e.getMessage()));
+            }
+
+            @Override
+            public void onNext(List<PeopleEntity.MDetail> item_peopleEntities) {
+                MyLog.d(TAG,"next");
+                mItem_peopleEntities=item_peopleEntities;
+            }
+        };
+
+      UserHttpMethods.getInstance().getUserInfo(subscriber,loginName);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

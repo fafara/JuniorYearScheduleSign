@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.example.wyz.schedulesign.Mvp.Entity.Item_PeopleEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.R;
 
 import java.util.ArrayList;
@@ -22,16 +22,16 @@ import java.util.List;
 
 public class People_Adapter extends  BaseAdapter {
     private  Context mContext;
-    public static List<Item_PeopleEntity> mItem_peopleEntities;
+    public static List<PeopleEntity.MDetail> mItem_peopleEntities;
     private LayoutInflater  mLayoutInflater;
     private  FloatingActionButton mFab;
     public  static  List<Integer> sIntegers=new ArrayList<>();
     MyViewHolder mViewHolder=null;
 
-    public People_Adapter(Context context,List<Item_PeopleEntity> item_peopleEntities) {
+    public People_Adapter(Context context,List<PeopleEntity.MDetail> item_peopleEntities) {
        this(context,item_peopleEntities,null);
     }
-    public  People_Adapter(Context context, List<Item_PeopleEntity> item_peopleEntities, FloatingActionButton fab){
+    public  People_Adapter(Context context, List<PeopleEntity.MDetail> item_peopleEntities, FloatingActionButton fab){
         this.mContext=context;
         mItem_peopleEntities=item_peopleEntities;
         mFab=fab;
@@ -70,7 +70,7 @@ public class People_Adapter extends  BaseAdapter {
         }
 
         mViewHolder.mName.setText(mItem_peopleEntities.get(position).getEmp_name());
-        mViewHolder.mTel.setText(mItem_peopleEntities.get(position).getTel());
+        mViewHolder.mTel.setText(mItem_peopleEntities.get(position).getEmp_tel_num());
         mViewHolder.mUsername.setText(mItem_peopleEntities.get(position).getEmp_no());
         mViewHolder.mCheckBox.setChecked(false);
         mViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -123,12 +123,13 @@ public class LoginActivity extends BaseActivity{
 
            @Override
            public void onError(Throwable e) {
-
+               MyLog.d(TAG,"请求出错:"+e.getMessage());
+               SnackbarManager.show(Snackbar.with(LoginActivity.this).text("请求出错："+e.getMessage()));
            }
 
            @Override
-           public void onNext(PeopleEntity.MDetail mDetail) {
-
+           public void onNext(PeopleEntity.MDetail detail) {
+               MyLog.d(TAG,"onNext");
            }
        };
        UserHttpMethods.getInstance().getLoginUserInfo(subscriber,username);

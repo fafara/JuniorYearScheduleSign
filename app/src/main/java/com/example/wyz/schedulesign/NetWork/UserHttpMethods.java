@@ -5,12 +5,14 @@ import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -27,6 +29,7 @@ public class UserHttpMethods {
 
     private Retrofit mRetrofit;
     private  PeopleService mPeopleService;
+    private  int i=0;
 
     /**
      * 设置Retrofit网络请求
@@ -61,24 +64,36 @@ public class UserHttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public  void getLoginUserInfo(Subscriber<PeopleEntity.MDetail> subscriber,String name){
+    public  void getLoginUserInfo(Subscriber<PeopleEntity.MDetail> subscriber, String name){
         mPeopleService.getLoginUserInfo(name)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .map(new Func1<PeopleEntity,  PeopleEntity.MDetail>() {
+                  .map(new Func1<PeopleEntity, PeopleEntity.MDetail>() {
+                      @Override
+                      public PeopleEntity.MDetail call(PeopleEntity peopleEntity) {
+                          LoginSingleton.getInstance().setLoginSingleton(peopleEntity.getDetail().get(0).getEmp_id(),peopleEntity.getDetail().get(0).getEmp_no(),
+                                  peopleEntity.getDetail().get(0).getEmp_name(),peopleEntity.getDetail().get(0).getEmp_tel_num(),peopleEntity.getDetail().get(0).getEmp_addr(),
+                                  peopleEntity.getDetail().get(0).getEmp_email());
+                          return peopleEntity.getDetail().get(0);
+                      }
+                  })
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getUserInfo(Subscriber<List<PeopleEntity.MDetail>> subscriber,String name){
+        mPeopleService.getLoginUserInfo(name)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(new Func1<PeopleEntity, List<PeopleEntity.MDetail>>() {
                     @Override
-                    public  PeopleEntity.MDetail call(PeopleEntity peopleEntity) {
-                        PeopleEntity.MDetail mDetail=peopleEntity.getDetail().get(0);
-                        LoginSingleton.getInstance().setId(mDetail.getEmp_id());
-                        LoginSingleton.getInstance().setAddr(mDetail.getEmp_addr());
-                        LoginSingleton.getInstance().setUsername(mDetail.getEmp_no());
-                        LoginSingleton.getInstance().setEmail(mDetail.getEmp_email());
-                        LoginSingleton.getInstance().setTel(mDetail.getEmp_tel_num());
-                        LoginSingleton.getInstance().setName(mDetail.getEmp_name());
-                        return mDetail;
+                    public List<PeopleEntity.MDetail> call(PeopleEntity peopleEntity) {
+                        return peopleEntity.getDetail();
                     }
                 })
+                .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
@@ -89,37 +104,41 @@ public class UserHttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public  void getAllUserInfo(Subscriber<PeopleEntity> subscriber)
+    public  void getAllUserInfo(Subscriber<List<PeopleEntity.MDetail>> subscriber)
     {
         mPeopleService.getAllUserInfo()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-               /* .map(new Func1<PeopleEntity, List<PeopleEntity.MDetail>>() {
+                .map(new Func1<PeopleEntity, List<PeopleEntity.MDetail>>() {
                     @Override
                     public List<PeopleEntity.MDetail> call(PeopleEntity peopleEntity) {
                        return peopleEntity.getDetail();
                     }
                 })
-                .map(new Func1<List<PeopleEntity.MDetail>, List<Item_PeopleEntity>>() {
-                    @Override
-                    public List<Item_PeopleEntity> call(List<PeopleEntity.MDetail> mDetails) {
-                        List<Item_PeopleEntity> item_peopleEntities=new ArrayList<>();
-                        for(int i=0;i<mDetails.size();i++){
-                            item_peopleEntities.add();
-                        }
-                        return null;
-                    }
-                })*/
+                .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public  void getIsDeleteSuccess(Subscriber<LoginEntity> subscriber,String name){
-        mPeopleService.getIsDeleteSuccess(name)
+    public  void getIsDeleteSuccess(final Subscriber<LoginEntity> subscriber, List<String> names){
+        Observable.from(names)
+                .map(new Func1<String, Object>() {
+                    @Override
+                    public Object call(String s) {
+                        mPeopleService.getIsDeleteSuccess(s)
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(subscriber);
+                        return null;
+                    }
+                })
+
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe();
+
     }
     public  void getIsAddSuccess(Subscriber<LoginEntity> subscriber,String username,String name,String tel,String addr,String email){
         mPeopleService.getIsAddSuccess(username,name,tel,addr,email)

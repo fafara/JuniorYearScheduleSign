@@ -75,7 +75,13 @@ public class LoginSingleton {
         LoginSingleton.getInstance().setTel(tel);
         LoginSingleton.getInstance().setEmail(email);
         LoginSingleton.getInstance().setAddr(addr);
-
-
+    }
+    public  void setLoginSingleton(int id,String username,String name,String tel,String addr,String email){
+        LoginSingleton.getInstance().setId(id);
+        LoginSingleton.getInstance().setUsername(username);
+        LoginSingleton.getInstance().setName(name);
+        LoginSingleton.getInstance().setTel(tel);
+        LoginSingleton.getInstance().setEmail(email);
+        LoginSingleton.getInstance().setAddr(addr);
     }
 }

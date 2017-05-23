@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         /*ActionBar actionBar = getActionBar();
         actionBar.hide();*/
         mPageFrameLayout=(PageFrameLayout)findViewById(R.id.contentLayout);
-        mPageFrameLayout.setUpViews(new int[]{R.layout.fragment_guide1,R.layout.fragment_guide2,R.layout.fragment_guide3,R.layout.fragment_guide4},
+        mPageFrameLayout.setUpViews(new int[]{R.layout.fragment_guide1,R.layout.fragment_guide2,R.layout.fragment_guide4},
                 R.mipmap.banner_on,R.mipmap.banner_off);
         mPageFrameLayout.setPageTransformer();
 

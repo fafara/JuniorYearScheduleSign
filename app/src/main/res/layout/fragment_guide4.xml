@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
 
-        android:src="@mipmap/guide_page4" />
+        android:src="@mipmap/guide_page3" />
     <Button
         android:id="@+id/btn"
         android:text="点 击 体 验"
