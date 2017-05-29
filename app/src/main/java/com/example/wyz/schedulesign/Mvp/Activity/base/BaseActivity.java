@@ -10,4 +10,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public  abstract  void initActionBar();
 
     public  abstract  void initView();
+    public  abstract  void initInject();
 }

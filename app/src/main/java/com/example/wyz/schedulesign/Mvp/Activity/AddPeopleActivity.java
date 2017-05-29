@@ -41,7 +41,7 @@ public class AddPeopleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_people);
-        ButterKnife.inject(this);
+        initInject();
         initActionBar();
         initView();
     }
@@ -54,6 +54,11 @@ public class AddPeopleActivity extends BaseActivity {
 
     @Override
     public void initView() {
+    }
+
+    @Override
+    public void initInject() {
+        ButterKnife.inject(this);
     }
 
     @OnClick(R.id.btn)

@@ -5,10 +5,14 @@ import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,15 +34,15 @@ public class UserHttpMethods {
     private Retrofit mRetrofit;
     private  PeopleService mPeopleService;
     private  int i=0;
+    int j=0;
 
     /**
      * 设置Retrofit网络请求
      */
     private UserHttpMethods(){
-        OkHttpClient.Builder httpClientBuilder=new OkHttpClient.Builder();
-        httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient=genericClient();
         mRetrofit=new Retrofit.Builder()
-                .client(httpClientBuilder.build())
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(ApiManager.PEOPLE_BASE_URL)
@@ -56,6 +60,40 @@ public class UserHttpMethods {
         return  SingletonHolder.INSTANCE;
     }
 
+    private  OkHttpClient genericClient(){
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Response response = chain.proceed(chain.request());
+                        //存入Session
+                        if (response.header("Set-Cookie") != null) {
+                            if(SessionManager.getmSession().equals("")){
+                                SessionManager.setSession(response.header("Set-Cookie"));
+                            }
+
+                        }
+                        //刷新API调用时间
+                        SessionManager.setLastApiCallTime(System.currentTimeMillis());
+                        return  response;
+                    }
+
+                })
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request();
+                        Request.Builder builder1 = request.newBuilder();
+                        Request build = builder1.addHeader("Cookie", SessionManager.getmSession()).build();
+                        return chain.proceed(build);
+
+                    }
+                })
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
+
+        return httpClient;
+    }
 
     public  void getIsLoginSuccess(Subscriber<LoginEntity> subscriber, String name, String pass){
         mPeopleService.getIsLoginSuccess(name,pass)
@@ -147,6 +185,14 @@ public class UserHttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+    public void getIsUpdateImage(Subscriber<LoginEntity> subscriber,byte[] bytes){
+        mPeopleService.isUpdateImage(bytes)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 
 
 }

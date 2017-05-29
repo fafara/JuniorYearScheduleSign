@@ -36,4 +36,8 @@
         <item name="colorAccent">#FFCC00</item>
 
     </style>
+    <style name="PopWindows" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/login_push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/login_push_bottom_out</item>
+    </style>
 </resources>

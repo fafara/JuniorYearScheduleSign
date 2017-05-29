@@ -11,4 +11,5 @@
     <color name="splitLine">#FFF</color>
     <color name="splitLine1">#d1d1d1</color>
     <color name="editText">#FB739F</color>
+    <color name="setIcon_back">#00ffffff</color>
 </resources>

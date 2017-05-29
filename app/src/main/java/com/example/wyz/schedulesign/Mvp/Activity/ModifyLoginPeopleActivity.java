@@ -43,7 +43,7 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_login_people);
-        ButterKnife.inject(this);
+        initInject();
         initActionBar();
         initView();
     }
@@ -121,6 +121,11 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
         mAddr.setText(bundle.getString("addr"));
         mEmail.setText(bundle.getString("email"));
         username=bundle.getString("no");
+    }
+
+    @Override
+    public void initInject() {
+        ButterKnife.inject(this);
     }
 
     @Override

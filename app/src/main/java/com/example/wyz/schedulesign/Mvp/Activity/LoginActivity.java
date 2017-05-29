@@ -1,11 +1,11 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
@@ -17,25 +17,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
-import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
-import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
-import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
+import com.example.wyz.schedulesign.Mvp.IView.ILoginView;
+import com.example.wyz.schedulesign.Mvp.Presenter.LoginPresenter;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
-import com.example.wyz.schedulesign.Util.MyLog;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 /**
  * Created by WYZ on 2017/5/12.
  */
 
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity implements ILoginView{
     private final String TAG="LoginActivity";
     @InjectView(R.id.et_username)
     EditText etUsername;
@@ -49,91 +46,22 @@ public class LoginActivity extends BaseActivity{
     FloatingActionButton fab;
     @InjectView(R.id.bt_remember)
     CheckBox mCheckBox;
+    String username,password;
+    private static final int PERMISSION_OK= 1;
 
-    Subscriber<LoginEntity> mSubscriber;
+    LoginPresenter mLoginPresenter=new LoginPresenter(this);
 
-    private  String username;
-    private  String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        initInject();
+        initPermission();
         initActionBar();
         initView();
-    }
-
-    private void ReadPassword() {
-        Boolean isRemember;
-        SharedPreferences sp=getSharedPreferences("schedule_info", Context.MODE_PRIVATE);
-        isRemember=sp.getBoolean("loginStatus",false);
-        if(isRemember){
-            etPassword.setText(sp.getString("loginPassword",""));
-        }
-        etUsername.setText(sp.getString("loginName",""));
-        mCheckBox.setChecked(isRemember);
-
 
     }
-    private void SavePassWord(String name,String password,Boolean isRemember){
-        //SharedPreferences sharedPreferences=getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor=getSharedPreferences("schedule_info", Context.MODE_PRIVATE).edit();
-        editor.putString("loginName",name);
-        editor.putString("loginPassword",password);
-        editor.putBoolean("loginStatus",isRemember);
-        editor.apply();
-    }
-    private  void  getLoginResult(){
-        mSubscriber=new Subscriber<LoginEntity>() {
-            @Override
-            public void onCompleted() {
-                MyLog.d(TAG,"登录完成");
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                MyLog.d(TAG,"登录出错:"+e.getMessage());
-                SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录出错:"+e.getMessage()));
-            }
-
-            @Override
-            public void onNext(LoginEntity loginEntity) {
-                switch (loginEntity.getDetail().getStatus()){
-                    case 0:
-                        SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录账号或密码错误"));
-                        break;
-                    case 1:
-                        SavePassWord(username,password,mCheckBox.isChecked());
-                        getLoginInfo();
-                        enterMainView();
-                        break;
-                }
-
-            }
-        };
-        UserHttpMethods.getInstance().getIsLoginSuccess(mSubscriber,username,password);
-    }
-
-    private  void getLoginInfo(){
-       Subscriber<PeopleEntity.MDetail> subscriber=new Subscriber<PeopleEntity.MDetail>() {
-           @Override
-           public void onCompleted() {
-
-           }
-
-           @Override
-           public void onError(Throwable e) {
-               MyLog.d(TAG,"请求出错:"+e.getMessage());
-               SnackbarManager.show(Snackbar.with(LoginActivity.this).text("请求出错："+e.getMessage()));
-           }
-
-           @Override
-           public void onNext(PeopleEntity.MDetail detail) {
-               MyLog.d(TAG,"onNext");
-           }
-       };
-       UserHttpMethods.getInstance().getLoginUserInfo(subscriber,username);
-    }
     @OnClick({R.id.bt_go, R.id.fab})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -154,10 +82,10 @@ public class LoginActivity extends BaseActivity{
                 username=etUsername.getText().toString();
                 password=etPassword.getText().toString();
                 if(!username.equals("")&&!password.equals("")){
-                    getLoginResult();
+                    mLoginPresenter.getLoginResult(username,password,mCheckBox.isChecked());
                 }
                 else{
-                    SnackbarManager.show(com.nispok.snackbar.Snackbar.with(this).text("用户名或密码不能为空"));
+                    snackBarError("用户名或密码不能为空");
                 }
                 break;
 
@@ -180,9 +108,25 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        ReadPassword();
+        mLoginPresenter.ReadPassword(LoginActivity.this);
     }
-    private  void enterMainView(){
+
+    @Override
+    public void initInject() {
+        ButterKnife.inject(this);
+    }
+
+    @Override
+    public void setLoginEditText(String username,String password,boolean isRemember) {
+        if(isRemember){
+            etPassword.setText(password);
+        }
+        etUsername.setText(username);
+        mCheckBox.setChecked(isRemember);
+    }
+
+    @Override
+    public void setEnterAnimation() {
         Explode explode = new Explode();
         explode.setDuration(500);
         //设置退出效果
@@ -196,4 +140,46 @@ public class LoginActivity extends BaseActivity{
         LoginActivity.this.finish();
     }
 
+    @Override
+    public void initPermission() {
+        mLoginPresenter.permissionSetting();
+    }
+
+    @Override
+    public void snackBar_permission_error() {
+        SnackbarManager.show(Snackbar.with(LoginActivity.this).text("获取权限失败,请手动设置权限"));
+    }
+
+    @Override
+    public void snackBarError() {
+        SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录出错"));
+    }
+
+    @Override
+    public void snackBarError(String msg) {
+        SnackbarManager.show(Snackbar.with(LoginActivity.this).text(msg));
+    }
+
+    @Override
+    public void snackBarSuccess() {
+        SnackbarManager.show(Snackbar.with(LoginActivity.this).text("登录成功"));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case  PERMISSION_OK:
+                    for(int i=0;i<grantResults.length;i++){
+                        if(grantResults[i]== PackageManager.PERMISSION_GRANTED){
+
+                        }else{
+                            snackBar_permission_error();
+                        }
+                    }
+
+                break;
+            default:
+                break;
+        }
+    }
 }

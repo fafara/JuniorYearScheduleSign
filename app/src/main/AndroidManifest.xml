@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.wyz.schedulesign">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -25,14 +25,18 @@
             android:theme="@style/Translucent"/>
         <activity android:name=".Mvp.Activity.LoginActivity"/>
         <activity android:name=".Mvp.Activity.MainViewActivity"/>
-        <activity android:name=".Mvp.Activity.ModifyPeopleActivity">
-        </activity>
-        <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity">
-        </activity>
-        <activity android:name=".Mvp.Activity.Search_PeopleActivity_Show">
-        </activity>
-        <activity android:name=".Mvp.Activity.AddPeopleActivity">
-        </activity>
+        <activity android:name=".Mvp.Activity.ModifyPeopleActivity"/>
+        <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity"/>
+        <activity android:name=".Mvp.Activity.AddPeopleActivity"/>
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
 </manifest>

@@ -12,6 +12,15 @@ public class LoginEntity {
     public  class MDetail {
 
         private int status;
+        private String Image;
+
+        public String getImage() {
+            return Image;
+        }
+
+        public void setImage(String image) {
+            Image = image;
+        }
 
         public int getStatus() {
             return status;

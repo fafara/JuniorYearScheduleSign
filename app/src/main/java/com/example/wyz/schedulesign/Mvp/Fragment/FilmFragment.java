@@ -40,7 +40,7 @@ public class FilmFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_film, container, false);
-        ButterKnife.inject(this,view);
+       initInject(view);
         initViews();
         return  view;
     }
@@ -59,6 +59,11 @@ public class FilmFragment extends BaseFragment {
     @Override
     public void refreshViews() {
 
+    }
+
+    @Override
+    public void initInject(View view) {
+        ButterKnife.inject(this,view);
     }
 
     private  void initListView(){

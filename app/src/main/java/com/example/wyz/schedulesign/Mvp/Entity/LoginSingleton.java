@@ -11,6 +11,7 @@ public class LoginSingleton {
     private  String tel;
     private  String addr;
     private  String email;
+    private  String image;
     private  LoginSingleton(){
 
     }
@@ -69,19 +70,32 @@ public class LoginSingleton {
         this.email = email;
     }
 
-    public   void   updateLoginSingleton(String username,String name,String tel,String addr,String email){
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public   void   updateLoginSingleton(String username, String name, String tel, String addr, String email){
         LoginSingleton.getInstance().setUsername(username);
         LoginSingleton.getInstance().setName(name);
         LoginSingleton.getInstance().setTel(tel);
         LoginSingleton.getInstance().setEmail(email);
         LoginSingleton.getInstance().setAddr(addr);
+
     }
-    public  void setLoginSingleton(int id,String username,String name,String tel,String addr,String email){
+    public  void setLoginSingleton(int id,String username,String name,String tel,String addr,String email ){
         LoginSingleton.getInstance().setId(id);
         LoginSingleton.getInstance().setUsername(username);
         LoginSingleton.getInstance().setName(name);
         LoginSingleton.getInstance().setTel(tel);
         LoginSingleton.getInstance().setEmail(email);
         LoginSingleton.getInstance().setAddr(addr);
+    }
+    public  void setLoginImage(String url){
+        LoginSingleton.getInstance().setImage(url);
+
     }
 }

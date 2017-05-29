@@ -58,13 +58,12 @@ public class PeopleFragment extends BaseFragment  {
     List<PeopleEntity.MDetail> mItem_peopleEntities=new ArrayList<>();
 
     People_Adapter myAdapter=null;
-    int id;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_people, container, false);
-        ButterKnife.inject(this,view);
+        initInject(view);
         initViews();
         return view;
     }
@@ -122,6 +121,12 @@ public class PeopleFragment extends BaseFragment  {
         People_Adapter.mItem_peopleEntities.clear();
         allUserNetRequest();
     }
+
+    @Override
+    public void initInject(View view) {
+        ButterKnife.inject(this,view);
+    }
+
     public  void allUserNetRequest(){
         mSubscriber=new Subscriber<List<PeopleEntity.MDetail>>() {
             @Override

@@ -50,25 +50,27 @@ public class PageFragment extends Fragment {
                         ActivityCompat.startActivity(this, new Intent(this, Activity2.class),
                                 compat.toBundle());*/
                     } else {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                    }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(1000);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        getActivity().finish();
-                                    }
-                                });
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            getActivity().finish();
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        }
+                                    });
 
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    }).start();
+                        }).start();
+
+                    }
+
                 }
             });
             /*new Thread(new Runnable() {

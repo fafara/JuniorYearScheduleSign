@@ -2,6 +2,7 @@ package com.example.wyz.schedulesign.Mvp.Activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.transition.Explode;
 import android.view.KeyEvent;
@@ -42,12 +43,16 @@ public class MainViewActivity extends BaseActivity {
     PeopleFragment mPeopleFragment;
     private List<Fragment> mFragmentList;
     private  int currentPage=-1;
+    private  static  final  int TAKE_PHOTO=1;
+    private  static  final  int CROP_PHOTO=2;
+    private  static  final  int SHOW_PHOTO=3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainview);
-        ButterKnife.inject(this);
+        initInject();
+
         initView();
     }
     @OnClick({R.id.film,R.id.people,R.id.me})
@@ -93,6 +98,11 @@ public class MainViewActivity extends BaseActivity {
     public void initView() {
         enterAnimation();
         initViewPager();
+    }
+
+    @Override
+    public void initInject() {
+        ButterKnife.inject(this);
     }
 
     private  class  MyViewPagerPageChangeListener implements  ViewPager.OnPageChangeListener{
@@ -169,5 +179,16 @@ public class MainViewActivity extends BaseActivity {
             MyExit.exitBy2Click(MainViewActivity.this);
         }
         return  false;
+    }
+/*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String path=data.getAction();
+        setMeIcon(path);
+    }*/
+    private void setMeIcon(String path){
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        MeFragment fragment=(MeFragment)fragmentManager.getFragments().get(2);
+        fragment.setUserIcon(path);
     }
 }
