@@ -127,6 +127,11 @@ public class PeopleFragment extends BaseFragment  {
         ButterKnife.inject(this,view);
     }
 
+    @Override
+    public void initPresenter() {
+
+    }
+
     public  void allUserNetRequest(){
         mSubscriber=new Subscriber<List<PeopleEntity.MDetail>>() {
             @Override

@@ -30,12 +30,8 @@ public class UserHttpMethods {
 
 
     private static final int DEFAULT_TIMEOUT = 5;
-
     private Retrofit mRetrofit;
     private  PeopleService mPeopleService;
-    private  int i=0;
-    int j=0;
-
     /**
      * 设置Retrofit网络请求
      */
@@ -185,13 +181,7 @@ public class UserHttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public void getIsUpdateImage(Subscriber<LoginEntity> subscriber,byte[] bytes){
-        mPeopleService.isUpdateImage(bytes)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-    }
+
 
 
 

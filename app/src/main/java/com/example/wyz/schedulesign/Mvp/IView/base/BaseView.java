@@ -8,4 +8,5 @@ public interface BaseView {
     void snackBarError();
     void snackBarError(String msg);
     void snackBarSuccess();
+
 }

@@ -18,7 +18,6 @@ public interface IMeView extends BaseView {
     void cancelChoiceView();
     void take_photoView(Uri uri);
     void select_albumView(Uri uri);
-    void setSuccessCropIcon(Bitmap bitmap);
-    void setDefeatCropIcon(Bitmap bitmap);
-
+    void setUploadImageIcon(Bitmap bitmap);
+    void setUploadImageIcon();
 }

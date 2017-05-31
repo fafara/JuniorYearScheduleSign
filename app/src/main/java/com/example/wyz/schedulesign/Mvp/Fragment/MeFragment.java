@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.wyz.schedulesign.Mvp.Activity.ModifyLoginPeopleActivity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Event.setChoiceClick;
@@ -21,13 +22,8 @@ import com.example.wyz.schedulesign.Mvp.IView.IMeView;
 import com.example.wyz.schedulesign.Mvp.Presenter.MePresenter;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.CircleImageView;
-import com.example.wyz.schedulesign.Util.MyLog;
 import com.example.wyz.schedulesign.Util.SetIconChoice;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 import com.squareup.picasso.Picasso;
-
-import java.io.FileNotFoundException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -56,11 +52,11 @@ public class MeFragment extends BaseFragment implements IMeView {
     @InjectView(R.id.image)
     CircleImageView mImageView;
 
-    MePresenter mMePresenter=new MePresenter(this);
+    MePresenter mMePresenter=null;
     private SetIconChoice mSetIconChoice;
     private  static  final  int TAKE_PHOTO=1;
     private  static  final  int CROP_PHOTO=3;
-    private  static  final  int MODIFY_OK=2;
+    private  static  final  int MODIFY_USERINFO_OK=2;
     private static Uri mUri;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +64,7 @@ public class MeFragment extends BaseFragment implements IMeView {
 
         View  view=inflater.inflate(R.layout.fragment_me, container, false);
         initInject(view);
+        initPresenter();
         initViews();
         return view;
     }
@@ -88,6 +85,11 @@ public class MeFragment extends BaseFragment implements IMeView {
         ButterKnife.inject(this,view);
     }
 
+    @Override
+    public void initPresenter() {
+        mMePresenter=new MePresenter(this);
+    }
+
     @OnClick({R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.image})
     public  void onClick(View view){
         switch ( view.getId()){
@@ -104,42 +106,7 @@ public class MeFragment extends BaseFragment implements IMeView {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case  MODIFY_OK:
-                refreshViews();
-                break;
-            case TAKE_PHOTO:
-                if(resultCode==RESULT_OK)
-                {
-                    Intent intent = new Intent("com.android.camera.action.CROP");
-                    intent.setDataAndType(mUri,"image/*");
-                    intent.putExtra("scale",true);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,mUri);
-                    startActivityForResult(intent,CROP_PHOTO);
-                }
-                break;
-            case CROP_PHOTO:
-                if(resultCode==RESULT_OK)
-                {
-                    mMePresenter.saveSuccessIconBitmap(mUri);
-                }
-                else
-                {
-                    try {
-                        mMePresenter.saveErrorIconBitmap(mUri);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        MyLog.d(TAG,e.toString());
-                    }
 
-
-                }
-            case 0:
-                break;
-        }
-    }
     @Override
     public void setUserIcon() {
         if(LoginSingleton.getInstance()!=null){
@@ -190,7 +157,7 @@ public class MeFragment extends BaseFragment implements IMeView {
         bundle.putString("email",mEmail.getText().toString());
         intent.putExtras(bundle);
         intent.setClass(getContext(),ModifyLoginPeopleActivity.class);
-        startActivityForResult(intent,MODIFY_OK);
+        startActivityForResult(intent,MODIFY_USERINFO_OK);
     }
 
     @Override
@@ -228,38 +195,48 @@ public class MeFragment extends BaseFragment implements IMeView {
     }
 
     @Override
-    public void setSuccessCropIcon(Bitmap bitmap) {
+    public void setUploadImageIcon(Bitmap bitmap) {
         mImageView.setImageBitmap(bitmap);
         bitmap.recycle();
     }
 
     @Override
-    public void setDefeatCropIcon(Bitmap bitmap) {
-        if(bitmap==null) {
-            mImageView.setImageResource(R.mipmap.film);
+    public void setUploadImageIcon() {
+
+        /*setUserIcon();*/
+        Glide.with(this).load(LoginSingleton.getInstance().getImage())
+                .asBitmap()
+                .into(mImageView);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case  MODIFY_USERINFO_OK:
+                refreshViews();
+                break;
+            case TAKE_PHOTO:
+                if(resultCode==RESULT_OK)
+                {
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    intent.setDataAndType(mUri,"image/*");
+                    intent.putExtra("scale",true);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,mUri);
+                    startActivityForResult(intent,CROP_PHOTO);
+                }
+                break;
+            case CROP_PHOTO:
+                if(resultCode==RESULT_OK)
+                {
+                    mMePresenter.save_upload_Image(mUri);
+                }
+            case 0:
+                break;
         }
-        else
-        {
-            mImageView.setImageBitmap(bitmap);
-            bitmap.recycle();
-        }
     }
 
 
-    @Override
-    public void snackBarError() {
-        SnackbarManager.show(Snackbar.with(getActivity()).text("请求出错"));
-    }
-
-    @Override
-    public void snackBarError(String msg) {
-        SnackbarManager.show(Snackbar.with(getActivity()).text(msg));
-    }
-
-    @Override
-    public void snackBarSuccess() {
-        SnackbarManager.show(Snackbar.with(getActivity()).text("请求出错"));
-    }
 
 
 }

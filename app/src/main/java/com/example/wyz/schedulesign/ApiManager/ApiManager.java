@@ -9,4 +9,6 @@ public class ApiManager {
     public static final String PEOPLE_BASE_URL="http://123.206.67.174:18000/user/";
 
     public static  final  String FILM_BASE_URL="http://123.206.67.174:18000/film/";
+
+    public static  final  String IMAGE_UPLOAD_BASE_URL=PEOPLE_BASE_URL;
 }

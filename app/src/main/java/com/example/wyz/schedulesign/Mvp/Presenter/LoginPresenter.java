@@ -7,12 +7,13 @@ import android.content.SharedPreferences;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.IView.ILoginView;
 import com.example.wyz.schedulesign.Mvp.Model.LoginModel;
+import com.example.wyz.schedulesign.Mvp.Presenter.base.BasePresenter;
 
 /**
  * Created by WYZ on 2017/5/17.
  */
 
-public class LoginPresenter {
+public class LoginPresenter implements BasePresenter {
     private static LoginModel mLoginModel;
     private static ILoginView mILoginView;
     SharedPreferences sp;
@@ -46,19 +47,7 @@ public class LoginPresenter {
         editor.apply();
     }
 
-    public  void   snackBarError()
-    {
-        mILoginView.snackBarError();
-    }
-    public  void   snackBarError(String msg)
-    {
-        mILoginView.snackBarError(msg);
-    }
-    public  void   snackBarSuccess()
-    {
-        mILoginView.snackBarSuccess();
 
-    }
     public  void getLoginResult(String username,String password,boolean isRemember){
         mLoginModel.getLoginResult(username,password,isRemember);
     }
@@ -66,10 +55,25 @@ public class LoginPresenter {
         mILoginView.setEnterAnimation();
     }
     public  void setLoginImage(String url){
-        LoginSingleton.getInstance().setLoginImage(url);
+        LoginSingleton.getInstance().setImage(url);
     }
 
     public  void permissionSetting(){
         mLoginModel.permissionSetting((Activity)mILoginView);
+    }
+
+    @Override
+    public void snackBarError() {
+        mILoginView.snackBarError();
+    }
+
+    @Override
+    public void snackBarError(String msg) {
+        mILoginView.snackBarError(msg);
+    }
+
+    @Override
+    public void snackBarSuccess() {
+        mILoginView.snackBarSuccess();
     }
 }

@@ -94,8 +94,4 @@ public class LoginSingleton {
         LoginSingleton.getInstance().setEmail(email);
         LoginSingleton.getInstance().setAddr(addr);
     }
-    public  void setLoginImage(String url){
-        LoginSingleton.getInstance().setImage(url);
-
-    }
 }

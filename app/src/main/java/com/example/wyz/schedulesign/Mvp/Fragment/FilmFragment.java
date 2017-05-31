@@ -12,35 +12,29 @@ import android.widget.ListView;
 import com.example.wyz.schedulesign.Mvp.Adapter.Film_Adapter;
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
 import com.example.wyz.schedulesign.Mvp.Fragment.base.BaseFragment;
-import com.example.wyz.schedulesign.NetWork.FilmHttpMethods;
+import com.example.wyz.schedulesign.Mvp.IView.IFilmView;
+import com.example.wyz.schedulesign.Mvp.Presenter.FilmPresenter;
 import com.example.wyz.schedulesign.R;
-import com.example.wyz.schedulesign.Util.MyLog;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Subscriber;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilmFragment extends BaseFragment {
+public class FilmFragment extends BaseFragment implements  IFilmView{
     final  String TAG="FilmFragment";
     @InjectView(R.id.listView)
     ListView mListView;
-    Subscriber<List<FilmEntity.MDetail>> mSubscriber;
-    List<FilmEntity.MDetail> mFilmEntityList=new ArrayList<>();
-
+    FilmPresenter mFilmPresenter=null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view= inflater.inflate(R.layout.fragment_film, container, false);
-       initInject(view);
+        initInject(view);
         initViews();
         return  view;
     }
@@ -48,12 +42,14 @@ public class FilmFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadData();
+        initPresenter();
+        mFilmPresenter.getAllFilm();
     }
+
 
     @Override
     public void initViews() {
-        //loadData();
+
     }
 
     @Override
@@ -66,29 +62,15 @@ public class FilmFragment extends BaseFragment {
         ButterKnife.inject(this,view);
     }
 
-    private  void initListView(){
+    @Override
+    public void initPresenter() {
+        mFilmPresenter=new FilmPresenter(this);
+    }
+
+
+    @Override
+    public void initListView( List<FilmEntity.MDetail> mFilmEntityList) {
         Film_Adapter film_adapter=new Film_Adapter(getContext(),mFilmEntityList);
         mListView.setAdapter(film_adapter);
-
-    }
-    private  void loadData(){
-        mSubscriber=new Subscriber<List<FilmEntity.MDetail>>() {
-            @Override
-            public void onCompleted() {
-                initListView();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                MyLog.d(TAG,"请求出错:"+e.getMessage());
-                SnackbarManager.show(Snackbar.with(getActivity()).text("请求出错："+e.getMessage()));
-            }
-
-            @Override
-            public void onNext(List<FilmEntity.MDetail> FilmEntity) {
-                mFilmEntityList=FilmEntity;
-            }
-        };
-        FilmHttpMethods.getInstance().getAllFilmInfo(mSubscriber);
     }
 }

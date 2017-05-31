@@ -2,12 +2,14 @@ package com.example.wyz.schedulesign.Mvp.IModel;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
+
 /**
  * Created by WYZ on 2017/5/27.
  */
 
 public interface IMe {
-    void upLoadUserIcon(byte[] bytes);
+    void upLoadUserIcon(File file);
 
     void getLoginUserInfo();
 
@@ -15,7 +17,7 @@ public interface IMe {
 
     void select_album();
 
-    void save_icon_bitmap(Bitmap bitmap);
+    void save_upload_icon_bitmap(Bitmap bitmap);
 
 
 }

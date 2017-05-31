@@ -9,11 +9,12 @@ import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 import com.example.wyz.schedulesign.Mvp.IModel.IMe;
 import com.example.wyz.schedulesign.Mvp.Presenter.MePresenter;
+import com.example.wyz.schedulesign.NetWork.ImageUploadHttpMethods;
 import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.Util.MyLog;
+import com.example.wyz.schedulesign.Util.RxPartMapUtils;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,26 +29,29 @@ import rx.Subscriber;
 public class MeModel implements IMe{
     final  String TAG="MeModel";
     private final  String ALBUM_PATH= Environment.getExternalStorageDirectory().getPath()+"/logo";
+    private  static  Bitmap sBitmap=null;
     MePresenter mMePresenter = new MePresenter();
     @Override
-    public void upLoadUserIcon(byte[] bytes) {
+    public void upLoadUserIcon(File file) {
         Subscriber<LoginEntity> subscriber=new Subscriber<LoginEntity>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
             public void onError(Throwable e) {
-
+                MyLog.d(TAG,"请求出错:"+e.getMessage());
             }
 
             @Override
             public void onNext(LoginEntity loginEntity) {
-
+                if(loginEntity.getDetail().getImage()!=null&&sBitmap!=null){
+                    mMePresenter.updateIcon(sBitmap);
+                }
             }
         };
-        UserHttpMethods.getInstance().getIsUpdateImage(subscriber,bytes);
+        //ImageUploadHttpMethods.getInstance().uploadMoreFile(subscriber, RxPartMapUtils.toMapofMoreFile(ALBUM_PATH+"/1.png"));
+        ImageUploadHttpMethods.getInstance().getIsUpdateImage(subscriber, RxPartMapUtils.toMultipartBodyOfFile(file));
     }
 
     @Override
@@ -99,8 +103,9 @@ public class MeModel implements IMe{
     }
 
     @Override
-    public void save_icon_bitmap(Bitmap bitmap) {
+    public void save_upload_icon_bitmap(Bitmap bitmap) {
             BufferedOutputStream os = null;
+            sBitmap=bitmap;
             String _file="/logo.png/";
             try {
                 File file = new File(ALBUM_PATH+_file);  //新建图片
@@ -110,8 +115,8 @@ public class MeModel implements IMe{
                 }
                 file.createNewFile(); //创建图片文件
                 os = new BufferedOutputStream(new FileOutputStream(file));
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);  //图片存成png格式。
-                upLoadUserIcon(Bitmap2Bytes(bitmap));
+                sBitmap.compress(Bitmap.CompressFormat.PNG, 100, os);  //图片存成png格式。
+                upLoadUserIcon(file);
             }
             catch (Exception e)
             {
@@ -126,13 +131,5 @@ public class MeModel implements IMe{
                     }
                 }
             }
-    }
-    /**
-     * 把Bitmap转Byte
-     */
-    public static byte[] Bitmap2Bytes(Bitmap bm){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 }

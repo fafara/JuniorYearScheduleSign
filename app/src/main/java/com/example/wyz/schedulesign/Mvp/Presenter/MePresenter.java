@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.example.wyz.schedulesign.Mvp.IView.IMeView;
 import com.example.wyz.schedulesign.Mvp.Model.MeModel;
+import com.example.wyz.schedulesign.Mvp.Presenter.base.BasePresenter;
 
 import java.io.FileNotFoundException;
 
@@ -14,7 +15,7 @@ import java.io.FileNotFoundException;
  * Created by WYZ on 2017/5/27.
  */
 
-public class MePresenter {
+public class MePresenter implements BasePresenter{
     private static IMeView mIMeView;
     private  static MeModel mMeModel;
     public static  Context sContext;
@@ -37,14 +38,26 @@ public class MePresenter {
     public void setContext(Context context){
         sContext=context;
     }
-    public  void   snackBarError()
-    {
+
+    @Override
+    public void snackBarError() {
         mIMeView.snackBarError();
+    }
+
+    @Override
+    public void snackBarError(String msg) {
+        mIMeView.snackBarError(msg);
+    }
+
+    @Override
+    public void snackBarSuccess() {
+        mIMeView.snackBarSuccess();
     }
 
     public  void cancelChoiceView(){
         mIMeView.cancelChoiceView();
     }
+
     public  void dealTake_photo(){
         mMeModel.take_photo();
     }
@@ -58,21 +71,26 @@ public class MePresenter {
     public void setSelect_album(Uri icoUri){
         mIMeView.select_albumView(icoUri);
     }
-    public void saveSuccessIconBitmap(Uri uri){
+    public  void save_upload_Image(Uri uri) {
+
         try {
             Bitmap bitmap= BitmapFactory.decodeStream(sContext.getContentResolver().openInputStream(uri));
-            mMeModel.save_icon_bitmap(bitmap);
-            mIMeView.setSuccessCropIcon(bitmap);
+            if(bitmap!=null){
+                mMeModel.save_upload_icon_bitmap(bitmap);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-    }
-    public  void saveErrorIconBitmap(Uri uri) throws  FileNotFoundException{
-        Bitmap bitmap = BitmapFactory.decodeStream(sContext.getContentResolver().openInputStream(uri));
-        mIMeView.setDefeatCropIcon(bitmap);
 
     }
+    public  void updateIcon(){
+        mIMeView.setUploadImageIcon();
+    }
+    public  void updateIcon(Bitmap bitmap){
+        mIMeView.setUploadImageIcon(bitmap);
+    }
+
 
 
 }

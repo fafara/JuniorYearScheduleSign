@@ -4,7 +4,6 @@ import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
 
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -28,6 +27,6 @@ public interface PeopleService {
     Observable<LoginEntity> getIsDeleteSuccess(@Query("username")String name);
     @GET("register")
     Observable<LoginEntity> getIsAddSuccess(@Query("username") String username,@Query("name") String name,@Query("tel") String  tel,@Query("address")String addr,@Query("email")String email);
-    @POST("updataImage")
-    Observable<LoginEntity> isUpdateImage(@Query("image_data") byte[] imageData);
+
+
 }
