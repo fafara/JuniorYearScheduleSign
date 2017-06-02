@@ -28,6 +28,7 @@
         <activity android:name=".Mvp.Activity.ModifyPeopleActivity"/>
         <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity"/>
         <activity android:name=".Mvp.Activity.AddPeopleActivity"/>
+        <activity android:name=".Mvp.Activity.FilmSearchActivity"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

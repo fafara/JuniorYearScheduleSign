@@ -7,7 +7,7 @@ import android.os.Environment;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
-import com.example.wyz.schedulesign.Mvp.IModel.IMe;
+import com.example.wyz.schedulesign.Mvp.IModel.IMeModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.MePresenter;
 import com.example.wyz.schedulesign.NetWork.ImageUploadHttpMethods;
 import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
@@ -26,7 +26,7 @@ import rx.Subscriber;
  * Created by WYZ on 2017/5/27.
  */
 
-public class MeModel implements IMe{
+public class MeModel implements IMeModel {
     final  String TAG="MeModel";
     private final  String ALBUM_PATH= Environment.getExternalStorageDirectory().getPath()+"/logo";
     private  static  Bitmap sBitmap=null;

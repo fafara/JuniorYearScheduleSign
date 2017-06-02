@@ -19,7 +19,6 @@ import com.nispok.snackbar.SnackbarManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -143,10 +142,7 @@ public class ModifyPeopleActivity extends BaseActivity {
         no=bundle.getString("no");
     }
 
-    @Override
-    public void initInject() {
-        ButterKnife.inject(this);
-    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

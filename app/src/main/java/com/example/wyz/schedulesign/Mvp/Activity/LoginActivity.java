@@ -24,7 +24,6 @@ import com.example.wyz.schedulesign.Util.MyExit;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -111,10 +110,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
         mLoginPresenter.ReadPassword(LoginActivity.this);
     }
 
-    @Override
-    public void initInject() {
-        ButterKnife.inject(this);
-    }
+
 
     @Override
     public void setLoginEditText(String username,String password,boolean isRemember) {

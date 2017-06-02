@@ -8,7 +8,7 @@ import java.io.File;
  * Created by WYZ on 2017/5/27.
  */
 
-public interface IMe {
+public interface IMeModel {
     void upLoadUserIcon(File file);
 
     void getLoginUserInfo();

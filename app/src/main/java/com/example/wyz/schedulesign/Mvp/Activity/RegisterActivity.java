@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -13,13 +12,13 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 
+import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.R;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     @InjectView(R.id.fab)
     FloatingActionButton fab;
@@ -27,11 +26,12 @@ public class RegisterActivity extends AppCompatActivity {
     CardView cvAdd;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ButterKnife.inject(this);
+    public void initActionBar() {
 
+    }
+
+    @Override
+    public void initView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ShowEnterAnimation();
         }
@@ -41,6 +41,15 @@ public class RegisterActivity extends AppCompatActivity {
                 animateRevealClose();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        initInject();
+        initView();
+
     }
     //以水平90度，竖直60度抛物线展开
     private void ShowEnterAnimation() {

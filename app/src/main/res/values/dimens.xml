@@ -9,5 +9,6 @@
     <dimen name="me_text_size">16sp</dimen>
     <dimen name="me_text_margin">10dp</dimen>
     <dimen name="item_people_size">20sp</dimen>
+    <dimen name="item_film_size">16sp</dimen>
     <dimen name="fab_margin">20dp</dimen>
 </resources>

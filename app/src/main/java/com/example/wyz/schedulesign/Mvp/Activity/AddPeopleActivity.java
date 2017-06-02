@@ -15,7 +15,6 @@ import com.example.wyz.schedulesign.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -63,10 +62,7 @@ public class AddPeopleActivity extends BaseActivity {
     public void initView() {
     }
 
-    @Override
-    public void initInject() {
-        ButterKnife.inject(this);
-    }
+
 
     @OnClick(R.id.btn)
     public  void onClick(View view){

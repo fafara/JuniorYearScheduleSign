@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;
-import com.example.wyz.schedulesign.Mvp.IModel.ILogin;
+import com.example.wyz.schedulesign.Mvp.IModel.ILoginModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.LoginPresenter;
 import com.example.wyz.schedulesign.NetWork.UserHttpMethods;
 import com.example.wyz.schedulesign.Util.MyLog;
@@ -21,7 +21,7 @@ import static android.content.ContentValues.TAG;
  * Created by WYZ on 2017/5/1.
  */
 
-public class LoginModel implements ILogin {
+public class LoginModel implements ILoginModel {
 
     LoginPresenter mLoginPresenter=new LoginPresenter();
     private static final int PERMISSION_OK= 1;

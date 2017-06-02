@@ -1,7 +1,7 @@
 package com.example.wyz.schedulesign.Mvp.Model;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
-import com.example.wyz.schedulesign.Mvp.IModel.IFilm;
+import com.example.wyz.schedulesign.Mvp.IModel.IFilmModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.FilmPresenter;
 import com.example.wyz.schedulesign.NetWork.FilmHttpMethods;
 import com.example.wyz.schedulesign.Util.MyLog;
@@ -14,7 +14,7 @@ import rx.Subscriber;
  * Created by WYZ on 2017/5/29.
  */
 
-public class FilmModel implements IFilm{
+public class FilmModel implements IFilmModel{
 
     final String TAG="FilmModel";
     Subscriber<List<FilmEntity.MDetail>> mSubscriber;

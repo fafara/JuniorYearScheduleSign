@@ -22,7 +22,6 @@ import com.example.wyz.schedulesign.Util.MyExit;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -100,10 +99,7 @@ public class MainViewActivity extends BaseActivity {
         initViewPager();
     }
 
-    @Override
-    public void initInject() {
-        ButterKnife.inject(this);
-    }
+
 
     private  class  MyViewPagerPageChangeListener implements  ViewPager.OnPageChangeListener{
 

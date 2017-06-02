@@ -16,7 +16,6 @@ import com.example.wyz.schedulesign.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -123,10 +122,7 @@ public class ModifyLoginPeopleActivity extends BaseActivity {
         username=bundle.getString("no");
     }
 
-    @Override
-    public void initInject() {
-        ButterKnife.inject(this);
-    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

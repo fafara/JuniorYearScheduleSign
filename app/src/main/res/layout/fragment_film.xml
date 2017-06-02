@@ -1,14 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.wyz.schedulesign.Mvp.Fragment.FilmFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/listView"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+   <!-- <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent">-->
+        <ListView
+            android:id="@+id/listView"
+            android:focusableInTouchMode="true"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp"
+        android:paddingLeft="10dp"
+        app:menu_colorNormal="@color/fab_menu"
+        app:menu_colorPressed="@color/fab_menu_press"
+        app:menu_icon="@drawable/ic_add_24dp"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_fab_size="mini"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_labels_colorNormal="@color/fab_menu_label"
+        app:menu_labels_textColor="@color/fab_menu_label_text"
+        app:menu_labels_colorPressed="@color/fab_press"
+        android:focusableInTouchMode="true"
+        >
 
-</FrameLayout>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/fab"
+            app:fab_colorPressed="@color/fab_press"
+            android:src="@mipmap/add_32dp"
+            app:fab_size="mini"
+            app:fab_label="增加影片"
+            />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/fab"
+            app:fab_colorPressed="@color/fab_press"
+            android:src="@mipmap/delete_32dp"
+            app:fab_size="mini"
+            app:fab_label="删除影片" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/fab"
+            app:fab_colorPressed="@color/fab_press"
+            android:src="@mipmap/modify_32dp"
+            app:fab_size="mini"
+            app:fab_label="修改影片"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/fab"
+            app:fab_colorPressed="@color/fab_press"
+            android:src="@mipmap/search_32dp"
+            app:fab_size="mini"
+            app:fab_label="查询影片"
+            />
+
+    </com.github.clans.fab.FloatingActionMenu>
+</android.support.design.widget.CoordinatorLayout>

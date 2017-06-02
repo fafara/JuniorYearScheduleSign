@@ -1,6 +1,5 @@
 package com.example.wyz.schedulesign.NetWork;
 
-import com.example.wyz.schedulesign.ApiManager.ApiManager;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.Mvp.Entity.PeopleEntity;

@@ -34,6 +34,15 @@ public class FilmEntity {
         private String film_hourlong;
         private String film_type;
         private String film_price;
+        private String film_img;
+
+        public String getFilm_img() {
+            return film_img;
+        }
+
+        public void setFilm_img(String film_img) {
+            this.film_img = film_img;
+        }
 
         public String getFilm_name() {
             return film_name;

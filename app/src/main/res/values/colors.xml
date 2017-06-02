@@ -7,9 +7,19 @@
     <color name="login">#15A4F3</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="normalBottom">#FFF</color>
     <color name="splitLine">#FFF</color>
     <color name="splitLine1">#d1d1d1</color>
     <color name="editText">#FB739F</color>
     <color name="setIcon_back">#00ffffff</color>
+    <color name="fab">#fafafa</color>
+    <color name="fab_press">#e1e1e1</color>
+    <color name="fab_menu">#ffca28</color>
+    <color name="fab_menu_press">#e6b624</color>
+    <color name="fab_menu_label">#FAFAFA</color>
+    <color name="fab_menu_label_text">#5b5b5b</color>
+    <color name="search_text_hint">#999999</color>
+    <color name="search_text">#353535</color>
+    <color name="search_nav">#666666</color>
 </resources>
