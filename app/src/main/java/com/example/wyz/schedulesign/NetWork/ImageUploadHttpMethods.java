@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,7 +29,6 @@ public class ImageUploadHttpMethods {
     private static final int DEFAULT_TIMEOUT = 5;
     private Retrofit mRetrofit;
     private ImageUploadService mImageUploadService;
-    public  final MediaType CONTENT_TYPE=MediaType.parse("application/json; charset=utf-8");
     /**
      * 单例模式
      */

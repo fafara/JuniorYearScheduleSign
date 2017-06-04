@@ -77,7 +77,7 @@ public class People_Adapter extends  BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    sIntegers.add(Integer.valueOf(position));
+                    sIntegers.add(position);
                 }else{
                     sIntegers.remove(Integer.valueOf(position));
                 }

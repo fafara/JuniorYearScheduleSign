@@ -209,7 +209,7 @@ public class PeopleFragment extends BaseFragment  {
         };
         List<String> lists=new ArrayList<>();
         for(int i=0;i<People_Adapter.sIntegers.size();i++){
-            String username=mItem_peopleEntities.get((int)People_Adapter.sIntegers.get(i)).getEmp_no();
+            String username=mItem_peopleEntities.get(People_Adapter.sIntegers.get(i)).getEmp_no();
             lists.add(username);
         }
         UserHttpMethods.getInstance().getIsDeleteSuccess(subscriber,lists);

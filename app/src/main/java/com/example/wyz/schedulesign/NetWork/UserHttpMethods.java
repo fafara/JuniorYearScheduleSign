@@ -149,6 +149,18 @@ public class UserHttpMethods {
                        return peopleEntity.getDetail();
                     }
                 })
+                .map(new Func1<List<PeopleEntity.MDetail>, List<PeopleEntity.MDetail>>() {
+                    @Override
+                    public List<PeopleEntity.MDetail> call(List<PeopleEntity.MDetail> mDetails) {
+                        for(int i=0;i<mDetails.size();i++){
+                            if(mDetails.get(i).getEmp_id()==LoginSingleton.getInstance().getId()){
+                                mDetails.remove(i);
+                                break;
+                            }
+                        }
+                        return mDetails;
+                    }
+                })
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

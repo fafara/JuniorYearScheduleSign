@@ -112,8 +112,8 @@ public class MeFragment extends BaseFragment implements IMeView {
         if(LoginSingleton.getInstance()!=null){
             Picasso.with(getActivity())
                     .load(LoginSingleton.getInstance().getImage())
-                    .placeholder(R.mipmap.film)
-                    .error(R.mipmap.delete)
+                    .placeholder(R.mipmap.icon_loading)
+                    .error(R.mipmap.icon_error)
                     .into(mImageView);
         }
     }
@@ -123,8 +123,8 @@ public class MeFragment extends BaseFragment implements IMeView {
         if(LoginSingleton.getInstance()!=null){
             Picasso.with(getActivity())
                     .load(path)
-                    .placeholder(R.mipmap.film)
-                    .error(R.mipmap.delete)
+                    .placeholder(R.mipmap.icon_loading)
+                    .error(R.mipmap.icon_error)
                     .into(mImageView);
         }
     }

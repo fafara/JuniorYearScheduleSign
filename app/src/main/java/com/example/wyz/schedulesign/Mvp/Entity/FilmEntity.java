@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.Mvp.Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class FilmEntity {
         Result = result;
     }
 
-    public static class MDetail{
+    public static class MDetail implements  Serializable{
         private int film_id;
         private String film_name;
         private String film_tostar;

@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
 
 public class RxPartMapUtils {
     public  static RequestBody toRequestBodyOfText(String value){
-        RequestBody body=RequestBody.create(MediaType.parse("text/plain"),value);
+        RequestBody body=RequestBody.create(MediaType.parse("multipart/form-data"),value);
         return  body;
     }
     public  static  RequestBody toRequestBodyOfImage(File pFile){
@@ -25,6 +25,11 @@ public class RxPartMapUtils {
         RequestBody fileBody=RequestBody.create(MediaType.parse("multipart/form-data"),file);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("inputFile",file.getName(),fileBody);
         return filePart;
+    }
+    public  static MultipartBody.Part toMultipartBodyOfText(String name,String text){
+        RequestBody textBody=RequestBody.create(MediaType.parse("multipart/form-data"),text);
+        MultipartBody.Part textPart = MultipartBody.Part.createFormData(name,text);
+        return textPart;
     }
     public static Map<String,RequestBody> toMapofMoreFile(String path){
         File file = new File(path);

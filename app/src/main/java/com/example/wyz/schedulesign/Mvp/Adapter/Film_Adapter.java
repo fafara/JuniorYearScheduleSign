@@ -5,14 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
-import com.example.wyz.schedulesign.Mvp.Entity.LoginSingleton;
 import com.example.wyz.schedulesign.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ public class Film_Adapter extends BaseAdapter {
     private static  Context mContext;
     public static List<FilmEntity.MDetail> mMDetails;
     private LayoutInflater mLayoutInflater;
+    public static List<Integer> sIntegers=new ArrayList<>();
     MyViewHolder mViewHolder=null;
     public Film_Adapter(Context context,List<FilmEntity.MDetail> mDetails) {
         this.mContext=context;
@@ -46,7 +49,7 @@ public class Film_Adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView==null){
             mViewHolder=new MyViewHolder();
             convertView=mLayoutInflater.inflate(R.layout.item_film,null);
@@ -55,6 +58,7 @@ public class Film_Adapter extends BaseAdapter {
             mViewHolder.mType=(TextView)convertView.findViewById(R.id.type);
             mViewHolder.mHour=(TextView)convertView.findViewById(R.id.hourlong);
             mViewHolder.mImageView=(ImageView)convertView.findViewById(R.id.image);
+            mViewHolder.mCheckBox=(CheckBox)convertView.findViewById(R.id.checkbox);
             convertView.setTag(mViewHolder);
         }else {
             mViewHolder=(MyViewHolder) convertView.getTag();
@@ -64,8 +68,20 @@ public class Film_Adapter extends BaseAdapter {
         mViewHolder.mType.setText(mMDetails.get(position).getFilm_type());
         mViewHolder.mHour.setText(mMDetails.get(position).getFilm_hourlong());
         if(mMDetails.get(position).getFilm_img()!=null){
-            loadImage();
+            //mViewHolder.mImageView.setImageResource(R.mipmap.icon_loading);
+            loadImage(mMDetails.get(position).getFilm_img());
         }
+        mViewHolder.mCheckBox.setChecked(false);
+        mViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    sIntegers.add(position);
+                }else{
+                    sIntegers.remove(Integer.valueOf(position));
+                }
+            }
+        });
         return convertView;
     }
     private  class  MyViewHolder{
@@ -74,14 +90,17 @@ public class Film_Adapter extends BaseAdapter {
         public TextView mType;
         public TextView mHour;
         public ImageView mImageView;
+        public CheckBox mCheckBox;
 
     }
-    private  void loadImage(){
+    private  void loadImage(String path){
+        Picasso.with(mContext).invalidate(path);
         Picasso.with(mContext)
-                .load(LoginSingleton.getInstance().getImage())
-                .placeholder(R.mipmap.film)
-                .error(R.mipmap.delete)
+                .load(path)
+                .placeholder(R.mipmap.icon_loading)
+                .error(R.mipmap.icon_error)
                 .into(mViewHolder.mImageView);
+
 
     }
 }

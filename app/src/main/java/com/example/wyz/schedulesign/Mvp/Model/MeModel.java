@@ -28,7 +28,7 @@ import rx.Subscriber;
 
 public class MeModel implements IMeModel {
     final  String TAG="MeModel";
-    private final  String ALBUM_PATH= Environment.getExternalStorageDirectory().getPath()+"/logo";
+    private final  String ALBUM_PATH= Environment.getExternalStorageDirectory().getPath()+"/schedulesign";
     private  static  Bitmap sBitmap=null;
     MePresenter mMePresenter = new MePresenter();
     @Override

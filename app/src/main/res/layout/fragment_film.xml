@@ -29,7 +29,7 @@
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
         app:menu_fab_size="mini"
-        app:menu_backgroundColor="#ccffffff"
+        app:menu_backgroundColor="#ddffffff"
         app:menu_labels_colorNormal="@color/fab_menu_label"
         app:menu_labels_textColor="@color/fab_menu_label_text"
         app:menu_labels_colorPressed="@color/fab_press"

@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -38,8 +40,10 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
+    final  int ACTIVITY_MODIFY=2;
     FilmSearchPresenter mFilmSearchPresenter=new FilmSearchPresenter(this);
     Film_Adapter film_adapter=null;
+    static  String lastSearch="";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,17 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
     @Override
     public void initView() {
         initSearchView();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent2=new Intent();
+                intent2.setClass(FilmSearchActivity.this, FilmModifyActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("film", Film_Adapter.mMDetails.get(position));
+                intent2.putExtras(bundle);
+                startActivityForResult(intent2,ACTIVITY_MODIFY);
+            }
+        });
     }
 
 
@@ -74,6 +89,7 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
         if(film_adapter!=null){
             Film_Adapter.mMDetails.clear();
         }
+        lastSearch=newText;
         mFilmSearchPresenter.getFilmFindResult(newText);
         return false;
     }
@@ -105,7 +121,6 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
         mSearchView.setQueryHint(spanText);
         mSearchView.setOnQueryTextListener(this);
     }
-
     @Override
     public void updateView(List<FilmEntity.MDetail> details) {
         if(film_adapter==null){
@@ -115,8 +130,9 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
             Film_Adapter.mMDetails=details;
             film_adapter.notifyDataSetChanged();
         }
-
     }
+
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -133,5 +149,12 @@ public class FilmSearchActivity extends BaseActivity implements SearchView.OnQue
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            mFilmSearchPresenter.getFilmFindResult(lastSearch);
+        }
     }
 }

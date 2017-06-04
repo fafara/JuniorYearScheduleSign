@@ -1,18 +1,21 @@
 package com.example.wyz.schedulesign.NetWork;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.FilmStatusEntity;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -127,6 +130,38 @@ public class FilmHttpMethods {
                         return filmEntity.getDetail();
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public void getdeleteFilmResult(final Subscriber<FilmStatusEntity> subscriber, List<Integer> integers){
+        Observable.from(integers)
+                .map(new Func1<Integer, Object>() {
+                    @Override
+                    public Object call(Integer integer) {
+                        mFilmService.getdeleteFilmResult(integer)
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(subscriber);
+                        return  null;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+    public void getModifyFilmResult(Subscriber<FilmStatusEntity> subscriber, MultipartBody.Part file,MultipartBody.Part name,MultipartBody.Part tostar,MultipartBody.Part release,MultipartBody.Part hourlong,MultipartBody.Part type,MultipartBody.Part price){
+        mFilmService.getModifyFilmResult(file,name,tostar,release,hourlong,type,price)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public void getAddFilmResult(Subscriber<FilmStatusEntity> subscriber, MultipartBody.Part file,MultipartBody.Part name,MultipartBody.Part tostar,MultipartBody.Part release,MultipartBody.Part hourlong,MultipartBody.Part type,MultipartBody.Part price){
+        mFilmService.getAddFilmResult(file,name,tostar,release,hourlong,type,price)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
