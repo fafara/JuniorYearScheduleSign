@@ -64,23 +64,6 @@ public class ImageUploadHttpMethods {
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
-                        Response response = chain.proceed(chain.request());
-                        //存入Session
-                        if (response.header("Set-Cookie") != null) {
-                            if(SessionManager.getmSession().equals("")){
-                                SessionManager.setSession(response.header("Set-Cookie"));
-                            }
-
-                        }
-                        //刷新API调用时间
-                        SessionManager.setLastApiCallTime(System.currentTimeMillis());
-                        return  response;
-                    }
-
-                })
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
                         Request.Builder builder1 = request.newBuilder();
                         Request build = builder1.addHeader("Cookie", SessionManager.getmSession()).build();

@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,14 +16,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
+import com.example.wyz.schedulesign.Mvp.Adapter.FilmPlay_Adapter;
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.IFilmModifyView;
 import com.example.wyz.schedulesign.Mvp.Presenter.FilmModifyPresenter;
+import com.example.wyz.schedulesign.Mvp.RecyclerView.DividerItemDecoration;
+import com.example.wyz.schedulesign.Mvp.RecyclerView.OnItemClickListenerInterface;
 import com.example.wyz.schedulesign.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -49,19 +56,24 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     ImageView mImage;
     @InjectView(R.id.btn)
     Button mButton;
+    @InjectView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 
     FilmEntity.MDetail mDetail=new FilmEntity.MDetail();
     private  static  final  int IMAGE=1;
     FilmModifyPresenter mFilmModifyPresenter=new FilmModifyPresenter(this);
     private  static  File sFile=null;
+    static  FilmPlay_Adapter filmPlay_adapter=null;
+
     int isChoice=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_film_add);
+        setContentView(R.layout.activity_film_modify);
         initInject();
         initActionBar();
         getIntentData();
+
     }
 
     @Override
@@ -93,6 +105,8 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         mDetail= (FilmEntity.MDetail)intent.getSerializableExtra("film");
         initView();
         mFilmModifyPresenter.saveFile(mDetail.getFilm_img());
+        initRecyclerView();
+
 
     }
 
@@ -101,7 +115,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         sFile=file;
     }
 
-    @OnClick({R.id.btn,R.id.image})
+    @OnClick({R.id.btn,R.id.image,R.id.add_play})
     public  void OnClick(View v){
         switch (v.getId()){
             case  R.id.btn:
@@ -115,6 +129,9 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
                 break;
             case R.id.image:
                 mFilmModifyPresenter.select_album();
+                break;
+            case R.id.add_play:
+
                 break;
         }
     }
@@ -199,5 +216,54 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         }
     }
 
+    @Override
+    public void setRecyclerView(List<FilmPlayEntity.MDetail> filmPlayEntities) {
+        if(filmPlay_adapter==null){
+            filmPlay_adapter=new FilmPlay_Adapter(this,filmPlayEntities);
+            filmPlay_adapter.setOnItemClickListener(new OnItemClickListenerInterface() {
+                @Override
+                public void OnItemClick(View view, int position) {
 
+                }
+
+                @Override
+                public void OnItemLongClick(View view, int position) {
+
+                }
+            });
+            mRecyclerView.setAdapter(filmPlay_adapter);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHorizontalScrollBarEnabled(false);
+        }else{
+            FilmPlay_Adapter.sFilmPlayEntities.addAll(filmPlayEntities);
+            filmPlay_adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager;
+        DividerItemDecoration dividerItemDecoration;
+        linearLayoutManager=new LinearLayoutManager(FilmModifyActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //dividerItemDecoration=new DividerItemDecoration(FilmModifyActivity.this, DividerItemDecoration.HORIZONTAL_LIST,0);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        //mRecyclerView.addItemDecoration(dividerItemDecoration);
+        if(FilmPlay_Adapter.sFilmPlayEntities!=null){
+            FilmPlay_Adapter.sFilmPlayEntities.clear();
+        }
+        initRecyclerViewData(String.valueOf(mDetail.getFilm_id()));
+    }
+
+    @Override
+    public void initRecyclerViewData(String film_id) {
+        mFilmModifyPresenter.getFilmIdPlay(film_id);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        filmPlay_adapter=null;
+    }
 }

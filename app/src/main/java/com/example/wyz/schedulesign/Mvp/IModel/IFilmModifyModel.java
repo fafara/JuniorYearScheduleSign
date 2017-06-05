@@ -16,5 +16,7 @@ public interface IFilmModifyModel{
     void saveFile(Bitmap bitmap);
     void select_album();
 
+    void getFilmIdPlay(String id);
+
 
 }

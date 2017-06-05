@@ -20,4 +20,7 @@ public interface IFilmAddView extends BaseView {
     void getModifyData();
      boolean isEmpty(EditText editText);
     boolean isChoiceImage(ImageView imageView);
+
+
+
 }

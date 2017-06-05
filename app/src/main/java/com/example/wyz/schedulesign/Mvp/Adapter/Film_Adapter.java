@@ -55,6 +55,7 @@ public class Film_Adapter extends BaseAdapter {
             convertView=mLayoutInflater.inflate(R.layout.item_film,null);
             mViewHolder.mName=(TextView)convertView.findViewById(R.id.name);
             mViewHolder.mTostar=(TextView)convertView.findViewById(R.id.tostar);
+            mViewHolder.mId=(TextView)convertView.findViewById(R.id.film_id);
             mViewHolder.mType=(TextView)convertView.findViewById(R.id.type);
             mViewHolder.mHour=(TextView)convertView.findViewById(R.id.hourlong);
             mViewHolder.mImageView=(ImageView)convertView.findViewById(R.id.image);
@@ -65,6 +66,7 @@ public class Film_Adapter extends BaseAdapter {
         }
         mViewHolder.mName.setText(mMDetails.get(position).getFilm_name());
         mViewHolder.mTostar.setText(mMDetails.get(position).getFilm_tostar());
+        mViewHolder.mId.setText(String.valueOf(mMDetails.get(position).getFilm_id()));
         mViewHolder.mType.setText(mMDetails.get(position).getFilm_type());
         mViewHolder.mHour.setText(mMDetails.get(position).getFilm_hourlong());
         if(mMDetails.get(position).getFilm_img()!=null){
@@ -89,6 +91,7 @@ public class Film_Adapter extends BaseAdapter {
         public TextView mTostar;
         public TextView mType;
         public TextView mHour;
+        public TextView mId;
         public ImageView mImageView;
         public CheckBox mCheckBox;
 

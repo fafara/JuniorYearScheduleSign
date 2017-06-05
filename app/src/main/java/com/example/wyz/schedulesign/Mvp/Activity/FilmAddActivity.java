@@ -46,6 +46,7 @@ public class FilmAddActivity extends BaseActivity implements IFilmAddView {
     @InjectView(R.id.btn)
     Button mButton;
 
+
     FilmEntity.MDetail mDetail=new FilmEntity.MDetail();
     private  static  final  int IMAGE=1;
     FilmAddPresenter mAddPresenter=new FilmAddPresenter(this);
@@ -185,5 +186,7 @@ public class FilmAddActivity extends BaseActivity implements IFilmAddView {
             return  true;
         }
     }
+
+
 
 }

@@ -3,11 +3,13 @@ package com.example.wyz.schedulesign.Mvp.Presenter;
 import android.graphics.Bitmap;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.IFilmModifyView;
 import com.example.wyz.schedulesign.Mvp.Model.FilmModifyModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.base.BasePresenter;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by WYZ on 2017/6/3.
@@ -64,4 +66,11 @@ public class FilmModifyPresenter implements BasePresenter {
         sIFilmModifyView.backFragment();
     }
 
+    public void getFilmIdPlay(String film_id){
+        sFilmModifyModel.getFilmIdPlay(film_id);
+    }
+
+    public void setRecyclerViewData(List<FilmPlayEntity.MDetail> filmPlayEntities){
+        sIFilmModifyView.setRecyclerView(filmPlayEntities);
+    }
 }

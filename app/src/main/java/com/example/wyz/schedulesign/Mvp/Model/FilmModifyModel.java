@@ -5,10 +5,12 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.FilmStatusEntity;
 import com.example.wyz.schedulesign.Mvp.IModel.IFilmModifyModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.FilmModifyPresenter;
 import com.example.wyz.schedulesign.NetWork.FilmHttpMethods;
+import com.example.wyz.schedulesign.NetWork.FilmPlayHttpMethods;
 import com.example.wyz.schedulesign.Util.MyLog;
 import com.example.wyz.schedulesign.Util.RxPartMapUtils;
 
@@ -20,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -137,6 +140,27 @@ public class FilmModifyModel implements IFilmModifyModel {
         }
         Uri iconUri=Uri.fromFile(file);
         mFilmModifyPresenter.setSelect_album();
+    }
+
+    @Override
+    public void getFilmIdPlay(String id) {
+        Subscriber<List<FilmPlayEntity.MDetail>> subscriber=new Subscriber<List<FilmPlayEntity.MDetail>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFilmModifyPresenter.snackBarError(e.getMessage());
+            }
+
+            @Override
+            public void onNext(List<FilmPlayEntity.MDetail> filmPlayEntities) {
+                mFilmModifyPresenter.setRecyclerViewData(filmPlayEntities);
+            }
+        };
+        FilmPlayHttpMethods.getInstance().getFilmIdPlay(subscriber,id);
     }
 
 

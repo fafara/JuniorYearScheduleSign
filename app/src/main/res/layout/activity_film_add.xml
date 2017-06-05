@@ -26,14 +26,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/image"
                 android:scaleType="centerCrop"
                 android:background="@mipmap/add_icon"
-               android:layout_margin="5dp"
+                android:layout_margin="5dp"
                 android:layout_width="200dp"
                 android:layout_height="320dp"/>
             <LinearLayout
@@ -160,38 +164,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_below="@id/name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                >
-                <TextView
-
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-                <Button
-
-                    android:id="@+id/btn"
-                    android:layout_weight="2"
-                    android:text="确定"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/bt_shape_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
+          
 
         </RelativeLayout>
+
+
+        </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>

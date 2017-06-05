@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/AppTheme">
         <activity
             android:name=".Mvp.Activity.SplashActivity"
@@ -31,8 +32,8 @@
         <activity
             android:name=".Mvp.Activity.RegisterActivity"
             android:theme="@style/Translucent"/>
-        <activity android:name=".Mvp.Activity.LoginActivity"/>
-        <activity android:name=".Mvp.Activity.MainViewActivity"/>
+        <activity android:name=".Mvp.Activity.LoginActivity" />
+        <activity android:name=".Mvp.Activity.MainViewActivity"  android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Mvp.Activity.ModifyPeopleActivity"/>
         <activity android:name=".Mvp.Activity.ModifyLoginPeopleActivity"/>
         <activity android:name=".Mvp.Activity.AddPeopleActivity"/>

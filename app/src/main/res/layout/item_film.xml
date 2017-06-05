@@ -34,6 +34,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/film_id"
+            android:layout_toEndOf="@id/tostar"
+            android:layout_below="@id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="50dp"
+            android:textSize="@dimen/item_film_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
             android:id="@+id/type"
             android:layout_toEndOf="@id/image"
             android:layout_below="@id/tostar"
@@ -50,6 +61,7 @@
             android:layout_toEndOf="@id/type"
             android:layout_below="@id/tostar"
             android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:layout_toRightOf="@id/type"
             android:layout_marginStart="50dp"

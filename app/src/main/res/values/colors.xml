@@ -22,4 +22,5 @@
     <color name="search_text_hint">#999999</color>
     <color name="search_text">#353535</color>
     <color name="search_nav">#666666</color>
+    <color name="recyclerView_back">#eee</color>
 </resources>

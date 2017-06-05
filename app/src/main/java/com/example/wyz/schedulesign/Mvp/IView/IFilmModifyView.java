@@ -4,9 +4,11 @@ import android.net.Uri;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.base.BaseView;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by WYZ on 2017/6/3.
@@ -21,5 +23,9 @@ public interface IFilmModifyView extends BaseView{
     void getModifyData();
     boolean isEmpty(EditText editText);
     boolean isChoiceImage(ImageView imageView);
+
+    void setRecyclerView(List<FilmPlayEntity.MDetail> filmPlayEntities);
+    void initRecyclerView();
+    void initRecyclerViewData(String film_id);
 
 }

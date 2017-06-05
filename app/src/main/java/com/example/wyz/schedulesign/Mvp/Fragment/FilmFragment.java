@@ -111,17 +111,12 @@ public class FilmFragment extends BaseFragment implements  IFilmView{
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent2=new Intent();
-                            intent2.setClass(getActivity(), FilmModifyActivity.class);
-                            Bundle bundle=new Bundle();
-                            bundle.putSerializable("film", Film_Adapter.mMDetails.get(position));
-                            intent2.putExtras(bundle);
-                            startActivityForResult(intent2,ACTIVITY_MODIFY);
-                        }
-                    });
+                    Intent intent2=new Intent();
+                    intent2.setClass(getActivity(), FilmModifyActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("film", Film_Adapter.mMDetails.get(position));
+                    intent2.putExtras(bundle);
+                    startActivityForResult(intent2,ACTIVITY_MODIFY);
                 }
             });
         }
