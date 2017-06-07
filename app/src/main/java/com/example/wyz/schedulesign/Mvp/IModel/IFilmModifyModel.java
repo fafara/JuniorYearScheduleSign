@@ -17,6 +17,7 @@ public interface IFilmModifyModel{
     void select_album();
 
     void getFilmIdPlay(String id);
+    void deletePlay(String play_id);
 
 
 }

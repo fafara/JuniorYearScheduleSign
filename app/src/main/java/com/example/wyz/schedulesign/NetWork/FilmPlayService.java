@@ -1,6 +1,7 @@
 package com.example.wyz.schedulesign.NetWork;
 
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayStatusEntity;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -12,5 +13,14 @@ import rx.Observable;
 
 public interface FilmPlayService {
     @GET("queryPlay")
-    Observable<FilmPlayEntity> getFilmIdPlay(@Query("film_id")String id);
+    Observable<PlayEntity> getFilmIdPlay(@Query("film_id")String id);
+    @GET("addPlay")
+    Observable<PlayStatusEntity> addPlayforFilm(@Query("studio_id")String studio_id,@Query("play_start")String play_start,
+                    @Query("play_end")String play_end,@Query("film_id")String film_id,@Query("film_name")String film_name);
+    @GET("updataPlay")
+    Observable<PlayStatusEntity> updataPlayforFilm(@Query("play_id")String play_id,@Query("studio_id")String studio_id,@Query("play_start")String play_start,
+                                                @Query("play_end")String play_end,@Query("film_id")String film_id,@Query("film_name")String film_name);
+
+    @GET("deletePlay")
+    Observable<PlayStatusEntity> deletePlay(@Query("play_id")String play_id);
 }

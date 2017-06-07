@@ -5,8 +5,9 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.FilmStatusEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayStatusEntity;
 import com.example.wyz.schedulesign.Mvp.IModel.IFilmModifyModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.FilmModifyPresenter;
 import com.example.wyz.schedulesign.NetWork.FilmHttpMethods;
@@ -22,11 +23,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by WYZ on 2017/6/3.
@@ -36,6 +36,7 @@ public class FilmModifyModel implements IFilmModifyModel {
     private final  String ALBUM_PATH= Environment.getExternalStorageDirectory().getPath()+"/schedulesign";
     FilmModifyPresenter mFilmModifyPresenter=new FilmModifyPresenter();
     static  Bitmap sBitmap;
+    final String TAG="FilmModifyModel";
     @Override
     public void modifyFilm(File file,FilmEntity.MDetail detail) {
         Subscriber<FilmStatusEntity> subscriber=new Subscriber<FilmStatusEntity>() {
@@ -144,10 +145,33 @@ public class FilmModifyModel implements IFilmModifyModel {
 
     @Override
     public void getFilmIdPlay(String id) {
-        Subscriber<List<FilmPlayEntity.MDetail>> subscriber=new Subscriber<List<FilmPlayEntity.MDetail>>() {
+        Subscriber<List<PlayEntity.MDetail>> subscriber=new Subscriber<List<PlayEntity.MDetail>>() {
             @Override
             public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e){
+                MyLog.d(TAG,e.getMessage());
+                List<PlayEntity.MDetail> filmPlayEntities=new ArrayList<>();
+                mFilmModifyPresenter.setRecyclerViewData(filmPlayEntities);
+            }
+
+            @Override
+            public void onNext(List<PlayEntity.MDetail> filmPlayEntities) {
+                mFilmModifyPresenter.setRecyclerViewData(filmPlayEntities);
+            }
+        };
+        FilmPlayHttpMethods.getInstance().getFilmIdPlay(subscriber,id);
+    }
+
+    @Override
+    public void deletePlay(String play_id) {
+        Subscriber<PlayStatusEntity> subscriber=new Subscriber<PlayStatusEntity>() {
+            @Override
+            public void onCompleted() {
+                mFilmModifyPresenter.refreshView();
             }
 
             @Override
@@ -156,11 +180,11 @@ public class FilmModifyModel implements IFilmModifyModel {
             }
 
             @Override
-            public void onNext(List<FilmPlayEntity.MDetail> filmPlayEntities) {
-                mFilmModifyPresenter.setRecyclerViewData(filmPlayEntities);
+            public void onNext(PlayStatusEntity filmPlayEntities) {
+                /*mFilmModifyPresenter.setRecyclerViewData();*/
             }
         };
-        FilmPlayHttpMethods.getInstance().getFilmIdPlay(subscriber,id);
+        FilmPlayHttpMethods.getInstance().getDeletePlayforFilm(subscriber,play_id);
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.wyz.schedulesign.Mvp.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +20,7 @@ import android.widget.ImageView;
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Adapter.FilmPlay_Adapter;
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.IFilmModifyView;
 import com.example.wyz.schedulesign.Mvp.Presenter.FilmModifyPresenter;
 import com.example.wyz.schedulesign.Mvp.RecyclerView.DividerItemDecoration;
@@ -64,6 +66,8 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     FilmModifyPresenter mFilmModifyPresenter=new FilmModifyPresenter(this);
     private  static  File sFile=null;
     static  FilmPlay_Adapter filmPlay_adapter=null;
+    private  final  int ADDPLAY=2;
+    private final  int MODIFYPLAY=3;
 
     int isChoice=0;
     @Override
@@ -131,7 +135,14 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
                 mFilmModifyPresenter.select_album();
                 break;
             case R.id.add_play:
-
+                Intent intent=new Intent();
+                intent.setClass(FilmModifyActivity.this,PlayAddActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("film_name",mDetail.getFilm_name());
+                bundle.putString("film_id",String.valueOf(mDetail.getFilm_id()));
+                bundle.putString("film_hourlong",mDetail.getFilm_hourlong());
+                intent.putExtras(bundle);
+                startActivityForResult(intent,ADDPLAY);
                 break;
         }
     }
@@ -187,7 +198,10 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
+        }else if(requestCode==ADDPLAY&&resultCode==RESULT_OK){
+            refreshView();
+        }else if(requestCode==MODIFYPLAY&&resultCode==RESULT_OK){
+            refreshView();
         }
 
     }
@@ -217,18 +231,45 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     }
 
     @Override
-    public void setRecyclerView(List<FilmPlayEntity.MDetail> filmPlayEntities) {
+    public void setRecyclerView(List<PlayEntity.MDetail> filmPlayEntities) {
         if(filmPlay_adapter==null){
             filmPlay_adapter=new FilmPlay_Adapter(this,filmPlayEntities);
             filmPlay_adapter.setOnItemClickListener(new OnItemClickListenerInterface() {
                 @Override
                 public void OnItemClick(View view, int position) {
-
+                    Intent intent=new Intent();
+                    intent.setClass(FilmModifyActivity.this,PlayModifyActivity.class);
+                    Bundle bundle=new Bundle();
+                    PlayEntity.MDetail detail=new PlayEntity.MDetail();
+                    detail.setFilm_id(String.valueOf(mDetail.getFilm_id()));
+                    detail.setFilm_name(mDetail.getFilm_name());
+                    detail.setPlay_id(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_id());
+                    detail.setPlay_start(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_start());
+                    detail.setPlay_end(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_end());
+                    bundle.putSerializable("play",detail);
+                    bundle.putInt("pos",position);
+                    bundle.putString("film_hourlong",mDetail.getFilm_hourlong());
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent,MODIFYPLAY);
                 }
 
                 @Override
-                public void OnItemLongClick(View view, int position) {
+                public void OnItemLongClick(View view, final int position) {
+                    final AlertDialog.Builder builder=new AlertDialog.Builder(FilmModifyActivity.this);
+                    builder.setTitle("确定删除该演出计划?") ;
+                    builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mFilmModifyPresenter.deletePlay(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_id());
 
+                        }
+                    });
+                    builder.show();
                 }
             });
             mRecyclerView.setAdapter(filmPlay_adapter);
@@ -259,6 +300,14 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     @Override
     public void initRecyclerViewData(String film_id) {
         mFilmModifyPresenter.getFilmIdPlay(film_id);
+    }
+
+    @Override
+    public void refreshView() {
+        if(FilmPlay_Adapter.sFilmPlayEntities!=null){
+            FilmPlay_Adapter.sFilmPlayEntities.clear();
+        }
+        initRecyclerViewData(String.valueOf(mDetail.getFilm_id()));
     }
 
     @Override

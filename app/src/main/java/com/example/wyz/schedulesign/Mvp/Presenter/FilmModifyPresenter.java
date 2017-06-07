@@ -3,7 +3,7 @@ package com.example.wyz.schedulesign.Mvp.Presenter;
 import android.graphics.Bitmap;
 
 import com.example.wyz.schedulesign.Mvp.Entity.FilmEntity;
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.IFilmModifyView;
 import com.example.wyz.schedulesign.Mvp.Model.FilmModifyModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.base.BasePresenter;
@@ -70,7 +70,14 @@ public class FilmModifyPresenter implements BasePresenter {
         sFilmModifyModel.getFilmIdPlay(film_id);
     }
 
-    public void setRecyclerViewData(List<FilmPlayEntity.MDetail> filmPlayEntities){
+    public void setRecyclerViewData(List<PlayEntity.MDetail> filmPlayEntities){
         sIFilmModifyView.setRecyclerView(filmPlayEntities);
+    }
+
+    public  void deletePlay(String play_id){
+        sFilmModifyModel.deletePlay(play_id);
+    }
+    public  void refreshView(){
+        sIFilmModifyView.refreshView();
     }
 }

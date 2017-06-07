@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\date_picker_selector.xml",
+        "source": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\bundles\\debug\\res\\color\\date_picker_selector.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\done_text_color_dark.xml",
+        "source": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\bundles\\debug\\res\\color\\done_text_color_dark.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\done_text_color.xml",
+        "source": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\bundles\\debug\\res\\color\\done_text_color.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\date_picker_year_selector.xml",
+        "source": "E:\\AndroidStudioProject\\ScheduleSign\\library\\build\\intermediates\\bundles\\debug\\res\\color\\date_picker_year_selector.xml"
+    }
+]

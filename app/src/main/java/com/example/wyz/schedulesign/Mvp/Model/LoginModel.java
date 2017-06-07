@@ -55,8 +55,10 @@ public class LoginModel implements ILoginModel {
                         mLoginPresenter.SavePassWord(username,password,isRemember);
                         mLoginPresenter.setLoginImage(loginEntity.getDetail().getImage());
                         //mLoginPresenter.netRequestView();
-
-
+                        break;
+                    case 2:
+                        mLoginPresenter.SavePassWord(username,password,isRemember);
+                        mLoginPresenter.setLoginImage(loginEntity.getDetail().getImage());
                         break;
                 }
 

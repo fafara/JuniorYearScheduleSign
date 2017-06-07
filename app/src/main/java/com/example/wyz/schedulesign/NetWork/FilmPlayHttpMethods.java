@@ -1,6 +1,7 @@
 package com.example.wyz.schedulesign.NetWork;
 
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayStatusEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -84,17 +85,41 @@ public class FilmPlayHttpMethods {
 
         return httpClient;
     }
-    public void getFilmIdPlay(Subscriber<List<FilmPlayEntity.MDetail>> subscriber, String id){
+    public void getFilmIdPlay(Subscriber<List<PlayEntity.MDetail>> subscriber, String id){
         mFilmPlayService.getFilmIdPlay(id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<FilmPlayEntity, List<FilmPlayEntity.MDetail>>() {
+                .map(new Func1<PlayEntity, List<PlayEntity.MDetail>>() {
                     @Override
-                    public List<FilmPlayEntity.MDetail> call(FilmPlayEntity filmPlayEntity) {
+                    public List<PlayEntity.MDetail> call(PlayEntity filmPlayEntity) {
                         return  filmPlayEntity.getDetail();
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getAddPlayforFilm(Subscriber<PlayStatusEntity> subscriber,String studio_id, String play_start,String play_end, String film_id, String film_name) {
+        mFilmPlayService.addPlayforFilm(studio_id,play_start,play_end,film_id,film_name)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getModifyPlayforFilm(Subscriber<PlayStatusEntity> subscriber, String play_id,String studio_id, String play_start,String play_end, String film_id, String film_name){
+        mFilmPlayService.updataPlayforFilm(play_id,studio_id,play_start,play_end,film_id,film_name)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getDeletePlayforFilm(Subscriber<PlayStatusEntity> subscriber, String play_id){
+        mFilmPlayService.deletePlay(play_id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }

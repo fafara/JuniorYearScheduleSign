@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
 import com.example.wyz.schedulesign.Mvp.IView.base.BaseView;
 
 import java.io.File;
@@ -24,8 +24,9 @@ public interface IFilmModifyView extends BaseView{
     boolean isEmpty(EditText editText);
     boolean isChoiceImage(ImageView imageView);
 
-    void setRecyclerView(List<FilmPlayEntity.MDetail> filmPlayEntities);
+    void setRecyclerView(List<PlayEntity.MDetail> filmPlayEntities);
     void initRecyclerView();
     void initRecyclerViewData(String film_id);
+    void refreshView();
 
 }

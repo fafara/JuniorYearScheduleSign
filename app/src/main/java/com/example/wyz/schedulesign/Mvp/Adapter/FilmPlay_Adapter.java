@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.wyz.schedulesign.Mvp.Entity.FilmPlayEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.PlayEntity;
 import com.example.wyz.schedulesign.Mvp.RecyclerView.OnItemClickListenerInterface;
 import com.example.wyz.schedulesign.R;
 
@@ -20,8 +20,8 @@ import java.util.List;
 public class FilmPlay_Adapter extends android.support.v7.widget.RecyclerView.Adapter<FilmPlay_Adapter.MyViewHolder> {
 
     static  Activity sActivity;
-    public static List<FilmPlayEntity.MDetail>  sFilmPlayEntities;
-    public FilmPlay_Adapter(Activity activity,List<FilmPlayEntity.MDetail> filmPlayEntity) {
+    public static List<PlayEntity.MDetail>  sFilmPlayEntities;
+    public FilmPlay_Adapter(Activity activity,List<PlayEntity.MDetail> filmPlayEntity) {
         sActivity=activity;
         sFilmPlayEntities=filmPlayEntity;
     }
@@ -45,6 +45,14 @@ public class FilmPlay_Adapter extends android.support.v7.widget.RecyclerView.Ada
             public void onClick(View v) {
                 int pos=holder.getPosition();
                 mClickListenerInterface.OnItemClick(v,pos);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int pos=holder.getPosition();
+                mClickListenerInterface.OnItemLongClick(v,pos);
+                return true;
             }
         });
     }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wyz.schedulesign.Mvp.Activity.SeatActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/main_theme"
+        android:layout_width="match_parent"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:text="座位选择"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/status_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        >
+        <TextView
+
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+        <Button
+
+            android:id="@+id/btn"
+            android:layout_weight="2"
+            android:text="确定"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bt_shape_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+  <!--  <GridView
+        android:id="@+id/gridView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@id/status_layout"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="20dp"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        android:gravity="center"
+        android:stretchMode="spacingWidthUniform"
+        />-->
+    <com.qfdqc.views.seattable.SeatTable
+        android:id="@+id/seatView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/status_layout"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:background="#ffffff"
+        />
+
+
+</RelativeLayout>

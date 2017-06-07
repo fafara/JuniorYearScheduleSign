@@ -118,7 +118,9 @@ public class PeopleFragment extends BaseFragment  {
     @Override
     public void refreshViews() {
         mItem_peopleEntities.clear();
-        People_Adapter.mItem_peopleEntities.clear();
+        if(People_Adapter.mItem_peopleEntities!=null){
+            People_Adapter.mItem_peopleEntities.clear();
+        }
         allUserNetRequest();
     }
 
