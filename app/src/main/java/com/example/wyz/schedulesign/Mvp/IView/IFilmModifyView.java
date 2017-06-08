@@ -28,5 +28,6 @@ public interface IFilmModifyView extends BaseView{
     void initRecyclerView();
     void initRecyclerViewData(String film_id);
     void refreshView();
-
+    void startLoadView();
+    void endLoadView();
 }

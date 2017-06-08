@@ -13,4 +13,5 @@ public interface IFilmView  extends BaseView{
     void initListView(List<FilmEntity.MDetail> mFilmEntityList);
     void refreshView();
     void refreshListView(List<FilmEntity.MDetail>  mDetails);
+
 }

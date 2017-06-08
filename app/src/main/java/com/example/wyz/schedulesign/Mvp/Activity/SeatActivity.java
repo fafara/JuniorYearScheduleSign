@@ -7,14 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
+import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.StudioEntity;
 import com.example.wyz.schedulesign.Mvp.IView.ISeatView;
 import com.example.wyz.schedulesign.Mvp.Presenter.SeatPresenter;
 import com.example.wyz.schedulesign.R;
 import com.qfdqc.views.seattable.SeatTable;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +35,27 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     Toolbar mToolbar;
     @InjectView(R.id.btn)
     Button mButton;
+    @InjectView(R.id.avi)
+    AVLoadingIndicatorView avi;
+    @InjectView(R.id.loading)
+    FrameLayout mFrameLayout;
 
     StudioEntity.MDetail detail=null;
     SeatPresenter mSeatPresenter=new SeatPresenter(this);
     SeatEntity seatEntity=null;
 
     static List<SeatEntity> sSeatEntities=new ArrayList<>();
+
+    static List<SeatEntity> sSeatSold=new ArrayList<>();
+
+    static List<SeatEntity> sSeatValid=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
         initInject();
         initActionBar();
+        startLoadView();
         initView();
 
     }
@@ -57,7 +69,8 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     @Override
     public void initView() {
         getIntentData();
-        initSeatView();
+        getSeatSold(detail.getStudio_id());
+
 
     }
 
@@ -98,16 +111,20 @@ public class SeatActivity extends BaseActivity implements ISeatView{
 
             @Override
             public boolean isValidSeat(int row, int column) {
-                if(column==2) {
-                    return false;
+                for(int i=0;i<sSeatValid.size();i++){
+                    if(sSeatValid.get(i).getSeat_row()==row&&sSeatValid.get(i).getSeat_column()==column){
+                        return  false;
+                    }
                 }
                 return true;
             }
 
             @Override
             public boolean isSold(int row, int column) {
-                if(row==6&&column==6){
-                    return true;
+                for(int i=0;i<sSeatSold.size();i++){
+                    if(sSeatSold.get(i).getSeat_row()==row&&sSeatSold.get(i).getSeat_column()==column){
+                        return  true;
+                    }
                 }
                 return false;
             }
@@ -145,6 +162,7 @@ public class SeatActivity extends BaseActivity implements ISeatView{
                 return null;
             }
         });
+        endLoadView();
 
     }
 
@@ -161,6 +179,25 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     }
 
     @Override
+    public void getSeatSold(String studio_id) {
+        mSeatPresenter.getSeatStatus(studio_id);
+    }
+
+    @Override
+    public void setSeatStatus(SeatAllStatusEntity seatAllStatusEntity) {
+        for(int i=0;i<seatAllStatusEntity.getDetail().size();i++){
+            if(Integer.parseInt(seatAllStatusEntity.getDetail().get(i).getSeat_status())==1){
+                sSeatSold.add(seatAllStatusEntity.getDetail().get(i));
+            }
+            else if(Integer.parseInt(seatAllStatusEntity.getDetail().get(i).getSeat_status())==-1){
+                sSeatValid.add(seatAllStatusEntity.getDetail().get(i));
+            }
+        }
+        initSeatView();
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
             SeatActivity.this.finish();
@@ -171,9 +208,21 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     public void OnClick(View view){
         switch (view.getId()){
             case R.id.btn:
+                intoTicket();
                 mSeatPresenter.ticketSeat(sSeatEntities);
                 break;
         }
+    }
+    @Override
+    public void startLoadView() {
+        avi.show();
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endLoadView() {
+        avi.hide();
+        mFrameLayout.setVisibility(View.GONE);
     }
 
 }

@@ -17,7 +17,7 @@
             android:id="@+id/editText"
             android:layout_weight="1"
             android:background="@color/white"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
@@ -27,15 +27,15 @@
             android:layout_marginEnd="5dp"
             android:layout_gravity="center_vertical"
             android:background="@mipmap/search"
-            android:layout_width="35dp"
-            android:layout_height="35dp"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
         <ImageView
             android:id="@+id/add"
             android:src="@mipmap/add"
             android:layout_marginEnd="5dp"
             android:layout_gravity="center_vertical"
-            android:layout_width="35dp"
-            android:layout_height="35dp"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
     </LinearLayout>
     <ListView
         android:layout_below="@id/head"

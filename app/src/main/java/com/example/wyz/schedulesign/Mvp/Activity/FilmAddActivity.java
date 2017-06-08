@@ -73,7 +73,7 @@ public class FilmAddActivity extends BaseActivity implements IFilmAddView {
         mName.setText(mDetail.getFilm_name());
         mTostar.setText(mDetail.getFilm_tostar());
         mRelease.setText(mDetail.getFilm_release());
-        mhoureLong.setText(mDetail.getFilm_hourlong());
+        mhoureLong.setText(String.valueOf(mDetail.getFilm_hourlong()));
         mType.setText(mDetail.getFilm_type());
         mPrice.setText(mDetail.getFilm_price());
         Picasso.with(this)
@@ -138,7 +138,7 @@ public class FilmAddActivity extends BaseActivity implements IFilmAddView {
         mDetail.setFilm_name(mName.getText().toString());
         mDetail.setFilm_tostar(mTostar.getText().toString());
         mDetail.setFilm_release(mRelease.getText().toString());
-        mDetail.setFilm_hourlong(mhoureLong.getText().toString());
+        mDetail.setFilm_hourlong(Integer.parseInt(mhoureLong.getText().toString()));
         mDetail.setFilm_type(mType.getText().toString());
         mDetail.setFilm_price(mName.getText().toString());
 

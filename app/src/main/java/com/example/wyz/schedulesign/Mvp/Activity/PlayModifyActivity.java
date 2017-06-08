@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 
 import com.android.datetimepicker.date.DatePickerDialog;
@@ -19,6 +20,7 @@ import com.example.wyz.schedulesign.Mvp.Entity.StudioEntity;
 import com.example.wyz.schedulesign.Mvp.IView.IPlayModifyView;
 import com.example.wyz.schedulesign.Mvp.Presenter.PlayModifyPresenter;
 import com.example.wyz.schedulesign.R;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,6 +48,10 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
     EditText mEnd;
     @InjectView(R.id.btn)
     Button mButton;
+    @InjectView(R.id.avi)
+    AVLoadingIndicatorView avi;
+    @InjectView(R.id.loading)
+    FrameLayout mFrameLayout;
 
 
     PlayModifyPresenter mModifyPresenter=new PlayModifyPresenter(this);
@@ -86,9 +92,10 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
 
     @Override
     public void initView() {
+        startLoadView();
         Bundle bundle=getIntent().getExtras();
         pos=bundle.getInt("pos");
-        film_hourlong=Integer.parseInt(bundle.getString("film_hourlong"));
+        film_hourlong=bundle.getInt("film_hourlong");
         mMDetail=(PlayEntity.MDetail)bundle.getSerializable("play");
         mName.setText(mMDetail.getFilm_name());
         mID.setText(mMDetail.getFilm_id());
@@ -111,9 +118,17 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
             }
 
         }
+        int index=0;
+        for(int i=0;i<strings.size();i++){
+            if(strings.get(i).equals(mMDetail.getStudio_name())){
+                index=i;
+                break;
+            }
+        }
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,strings);
         mSpinner.setAdapter(adapter);
-        mSpinner.setSelection(pos);
+        mSpinner.setSelection(index);
+        endLoadView();
     }
 
     @Override
@@ -130,6 +145,7 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
         mMDetail.setPlay_end(mEnd.getText().toString());
         mMDetail.setFilm_id(mID.getText().toString());
         mMDetail.setFilm_name(mName.getText().toString());
+        mMDetail.setStudio_name(mSpinner.getSelectedItem().toString());
     }
 
     @Override
@@ -195,5 +211,16 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         setDatePicker();
+    }
+    @Override
+    public void startLoadView() {
+        avi.show();
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endLoadView() {
+        avi.hide();
+        mFrameLayout.setVisibility(View.GONE);
     }
 }

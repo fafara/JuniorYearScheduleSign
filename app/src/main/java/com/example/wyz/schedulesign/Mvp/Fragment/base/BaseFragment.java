@@ -6,6 +6,8 @@ import android.view.View;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by WYZ on 2017/5/17.
  */
@@ -15,9 +17,9 @@ public abstract class BaseFragment extends Fragment {
 
     public  abstract  void refreshViews();
 
-    public  abstract void initInject(View view);
-
-    public  abstract  void initPresenter();
+    public  void initInject(View view){
+        ButterKnife.inject(this,view);
+    }
 
 
     public void snackBarError() {

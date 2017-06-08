@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
@@ -27,6 +28,7 @@ import com.example.wyz.schedulesign.Mvp.RecyclerView.DividerItemDecoration;
 import com.example.wyz.schedulesign.Mvp.RecyclerView.OnItemClickListenerInterface;
 import com.example.wyz.schedulesign.R;
 import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,6 +62,10 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     Button mButton;
     @InjectView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.avi)
+    AVLoadingIndicatorView avi;
+    @InjectView(R.id.loading)
+    FrameLayout mFrameLayout;
 
     FilmEntity.MDetail mDetail=new FilmEntity.MDetail();
     private  static  final  int IMAGE=1;
@@ -92,7 +98,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         mName.setText(mDetail.getFilm_name());
         mTostar.setText(mDetail.getFilm_tostar());
         mRelease.setText(mDetail.getFilm_release());
-        mhoureLong.setText(mDetail.getFilm_hourlong());
+        mhoureLong.setText(String.valueOf(mDetail.getFilm_hourlong()));
         mType.setText(mDetail.getFilm_type());
         mPrice.setText(mDetail.getFilm_price());
         Picasso.with(this)
@@ -105,6 +111,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
 
     @Override
     public void getIntentData() {
+        startLoadView();
         Intent intent=this.getIntent();
         mDetail= (FilmEntity.MDetail)intent.getSerializableExtra("film");
         initView();
@@ -140,7 +147,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
                 Bundle bundle=new Bundle();
                 bundle.putString("film_name",mDetail.getFilm_name());
                 bundle.putString("film_id",String.valueOf(mDetail.getFilm_id()));
-                bundle.putString("film_hourlong",mDetail.getFilm_hourlong());
+                bundle.putInt("film_hourlong",mDetail.getFilm_hourlong());
                 intent.putExtras(bundle);
                 startActivityForResult(intent,ADDPLAY);
                 break;
@@ -177,7 +184,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         mDetail.setFilm_name(mName.getText().toString());
         mDetail.setFilm_tostar(mTostar.getText().toString());
         mDetail.setFilm_release(mRelease.getText().toString());
-        mDetail.setFilm_hourlong(mhoureLong.getText().toString());
+        mDetail.setFilm_hourlong(Integer.parseInt(mhoureLong.getText().toString()));
         mDetail.setFilm_type(mType.getText().toString());
         mDetail.setFilm_price(mPrice.getText().toString());
 
@@ -246,9 +253,10 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
                     detail.setPlay_id(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_id());
                     detail.setPlay_start(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_start());
                     detail.setPlay_end(FilmPlay_Adapter.sFilmPlayEntities.get(position).getPlay_end());
+                    detail.setStudio_name(FilmPlay_Adapter.sFilmPlayEntities.get(position).getStudio_name());
                     bundle.putSerializable("play",detail);
                     bundle.putInt("pos",position);
-                    bundle.putString("film_hourlong",mDetail.getFilm_hourlong());
+                    bundle.putInt("film_hourlong",mDetail.getFilm_hourlong());
                     intent.putExtras(bundle);
                     startActivityForResult(intent,MODIFYPLAY);
                 }
@@ -279,7 +287,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
             FilmPlay_Adapter.sFilmPlayEntities.addAll(filmPlayEntities);
             filmPlay_adapter.notifyDataSetChanged();
         }
-
+        endLoadView();
     }
 
     @Override
@@ -309,6 +317,21 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         }
         initRecyclerViewData(String.valueOf(mDetail.getFilm_id()));
     }
+
+    @Override
+    public void startLoadView() {
+        avi.show();
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endLoadView() {
+        avi.hide();
+        mFrameLayout.setVisibility(View.GONE);
+    }
+
+
+
 
     @Override
     protected void onDestroy() {

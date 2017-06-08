@@ -77,7 +77,7 @@ public class PlayAddActivity extends BaseActivity implements IPlayAddView,DatePi
         Bundle bundle=getIntent().getExtras();
         String film_name=bundle.getString("film_name");
         String film_id=bundle.getString("film_id");
-        film_hourlong=Integer.parseInt(bundle.getString("film_hourlong"));
+        film_hourlong=bundle.getInt("film_hourlong");
         mName.setText(film_name);
         mID.setText(film_id);
         initAllStudioSpinner();
@@ -120,7 +120,9 @@ public class PlayAddActivity extends BaseActivity implements IPlayAddView,DatePi
         List<String> strings=new ArrayList<>();
         mStudioEntity=studioEntity;
         for(int i=0;i<studioEntity.getDetail().size();i++){
-            strings.add(studioEntity.getDetail().get(i).getStudio_name());
+            if(studioEntity.getDetail().get(i).getStudio_flag().equals(String.valueOf(1))){
+                strings.add(studioEntity.getDetail().get(i).getStudio_name());
+            }
         }
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,strings);
         mSpinner.setAdapter(adapter);
@@ -138,6 +140,7 @@ public class PlayAddActivity extends BaseActivity implements IPlayAddView,DatePi
         mMDetail.setPlay_end(mEnd.getText().toString());
         mMDetail.setFilm_id(mID.getText().toString());
         mMDetail.setFilm_name(mName.getText().toString());
+        mMDetail.setStudio_name(mSpinner.getSelectedItem().toString());
     }
 
     @Override

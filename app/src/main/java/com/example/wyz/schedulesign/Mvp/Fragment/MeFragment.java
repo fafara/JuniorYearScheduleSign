@@ -25,7 +25,6 @@ import com.example.wyz.schedulesign.Util.CircleImageView;
 import com.example.wyz.schedulesign.Util.SetIconChoice;
 import com.squareup.picasso.Picasso;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -52,7 +51,7 @@ public class MeFragment extends BaseFragment implements IMeView {
     @InjectView(R.id.image)
     CircleImageView mImageView;
 
-    MePresenter mMePresenter=null;
+    MePresenter mMePresenter=new MePresenter(this);;
     private SetIconChoice mSetIconChoice;
     private  static  final  int TAKE_PHOTO=1;
     private  static  final  int CROP_PHOTO=3;
@@ -64,7 +63,6 @@ public class MeFragment extends BaseFragment implements IMeView {
 
         View  view=inflater.inflate(R.layout.fragment_me, container, false);
         initInject(view);
-        initPresenter();
         initViews();
         return view;
     }
@@ -80,15 +78,8 @@ public class MeFragment extends BaseFragment implements IMeView {
         mMePresenter.getLoginUserInfo();
     }
 
-    @Override
-    public void initInject(View view) {
-        ButterKnife.inject(this,view);
-    }
 
-    @Override
-    public void initPresenter() {
-        mMePresenter=new MePresenter(this);
-    }
+
 
     @OnClick({R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.image})
     public  void onClick(View view){

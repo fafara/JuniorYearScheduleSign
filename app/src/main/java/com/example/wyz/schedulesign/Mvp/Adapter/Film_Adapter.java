@@ -68,7 +68,7 @@ public class Film_Adapter extends BaseAdapter {
         mViewHolder.mTostar.setText(mMDetails.get(position).getFilm_tostar());
         mViewHolder.mId.setText(String.valueOf(mMDetails.get(position).getFilm_id()));
         mViewHolder.mType.setText(mMDetails.get(position).getFilm_type());
-        mViewHolder.mHour.setText(mMDetails.get(position).getFilm_hourlong());
+        mViewHolder.mHour.setText(String.valueOf(mMDetails.get(position).getFilm_hourlong()));
         if(mMDetails.get(position).getFilm_img()!=null){
             //mViewHolder.mImageView.setImageResource(R.mipmap.icon_loading);
             loadImage(mMDetails.get(position).getFilm_img());

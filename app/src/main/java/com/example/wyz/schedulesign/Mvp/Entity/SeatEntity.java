@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 public class SeatEntity implements Parcelable {
 
+    private  String seat_id;
     private String studio_id;
     private  int seat_row;
     private  int seat_column;
@@ -22,6 +23,14 @@ public class SeatEntity implements Parcelable {
         this.seat_row = seat_row;
         this.seat_column = seat_column;
         this.seat_status = seat_status;
+    }
+
+    public String getSeat_id() {
+        return seat_id;
+    }
+
+    public void setSeat_id(String seat_id) {
+        this.seat_id = seat_id;
     }
 
     public String getStudio_id() {

@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface ISeatModel {
     void ticketSeat(List<SeatEntity> seatEntities);
+    void getSeatStatus(String studio_id);
 }

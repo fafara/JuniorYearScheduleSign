@@ -1,6 +1,7 @@
 package com.example.wyz.schedulesign.NetWork;
 
 import com.example.wyz.schedulesign.Mvp.Entity.StudioEntity;
+import com.example.wyz.schedulesign.Mvp.Entity.StudioStatusEntity;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +60,6 @@ public class StudioHttpMethods {
                         Request.Builder builder1 = request.newBuilder();
                         Request build = builder1.addHeader("Cookie", SessionManager.getmSession()).build();
                         return chain.proceed(build);
-
                     }
                 })
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -70,6 +70,27 @@ public class StudioHttpMethods {
 
     public  void getAllStudio(Subscriber<StudioEntity> subscriber){
         mStudioService.getAllStudio()
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getAddStudioResult(Subscriber<StudioStatusEntity> subscriber,String name,int row,int col,String flag){
+        mStudioService.getAddStudioResult(name,row,col,flag)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getDeleteStudioResult(Subscriber<StudioStatusEntity> subscriber,String studio_id){
+        mStudioService.getDeleteStudioResult(studio_id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getModifyStudioResult(Subscriber<StudioStatusEntity> subscriber,String id,String name,int row,int col,String flag){
+        mStudioService.getModifyStudioResult(id,name,row,col,flag)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

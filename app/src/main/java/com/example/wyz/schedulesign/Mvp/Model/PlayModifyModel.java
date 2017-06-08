@@ -36,7 +36,7 @@ public class PlayModifyModel implements IPlayModifyModel{
                 MyLog.d(TAG,String.valueOf(playStatusEntity.getDetail().getStatus()));
             }
         };
-        FilmPlayHttpMethods.getInstance().getModifyPlayforFilm(subscriber,detail.getPlay_id(),detail.getStudio_id(),detail.getPlay_start(),detail.getPlay_end(),detail.getFilm_id(),detail.getFilm_name());
+        FilmPlayHttpMethods.getInstance().getModifyPlayforFilm(subscriber,detail.getPlay_id(),detail.getStudio_name(), detail.getStudio_id(),detail.getPlay_start(),detail.getPlay_end(),detail.getFilm_id(),detail.getFilm_name());
     }
     @Override
     public void getAllStudio() {

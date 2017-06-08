@@ -7,6 +7,7 @@ import com.example.wyz.schedulesign.Mvp.IModel.IPlayAddModel;
 import com.example.wyz.schedulesign.Mvp.Presenter.PlayAddPresenter;
 import com.example.wyz.schedulesign.NetWork.FilmPlayHttpMethods;
 import com.example.wyz.schedulesign.NetWork.StudioHttpMethods;
+import com.example.wyz.schedulesign.Util.MyLog;
 
 import rx.Subscriber;
 
@@ -15,6 +16,7 @@ import rx.Subscriber;
  */
 
 public class PlayAddModel implements IPlayAddModel {
+    final String TAG="PlayAddModel";
     PlayAddPresenter mPlayAddPresenter=new PlayAddPresenter();
     @Override
     public void addPlayForFilm(PlayEntity.MDetail detail) {
@@ -26,15 +28,15 @@ public class PlayAddModel implements IPlayAddModel {
 
             @Override
             public void onError(Throwable e) {
-
+                MyLog.d(TAG,e.getMessage());
             }
 
             @Override
             public void onNext(PlayStatusEntity playStatusEntity) {
-
+                MyLog.d(TAG,"sadasd");
             }
         };
-        FilmPlayHttpMethods.getInstance().getAddPlayforFilm(subscriber, detail.getStudio_id(),
+        FilmPlayHttpMethods.getInstance().getAddPlayforFilm(subscriber,detail.getStudio_id(),detail.getStudio_name(),
                 detail.getPlay_start(),detail.getPlay_end(),detail.getFilm_id(),detail.getFilm_name());
     }
 

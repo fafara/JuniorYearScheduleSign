@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.Mvp.IView;
 
+import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
 import com.example.wyz.schedulesign.Mvp.IView.base.BaseView;
 
 /**
@@ -11,4 +12,10 @@ public interface ISeatView  extends BaseView{
     void initGridView();
     void initSeatView();
     void intoTicket();
+
+    void  getSeatSold(String studio_id);
+
+    void setSeatStatus(SeatAllStatusEntity seatAllStatusEntity);
+    void startLoadView();
+    void endLoadView();
 }

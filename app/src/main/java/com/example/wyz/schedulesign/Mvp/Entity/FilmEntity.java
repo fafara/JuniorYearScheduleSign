@@ -32,7 +32,7 @@ public class FilmEntity {
         private String film_name;
         private String film_tostar;
         private String film_release;
-        private String film_hourlong;
+        private int film_hourlong;
         private String film_type;
         private String film_price;
         private String film_img;
@@ -69,11 +69,11 @@ public class FilmEntity {
             this.film_release = film_release;
         }
 
-        public String getFilm_hourlong() {
+        public int getFilm_hourlong() {
             return film_hourlong;
         }
 
-        public void setFilm_hourlong(String film_hourlong) {
+        public void setFilm_hourlong(int film_hourlong) {
             this.film_hourlong = film_hourlong;
         }
 

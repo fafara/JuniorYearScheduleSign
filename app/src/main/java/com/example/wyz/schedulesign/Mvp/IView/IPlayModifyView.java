@@ -18,4 +18,6 @@ public interface IPlayModifyView extends BaseView {
 
     void initDatePicker();
     void setDatePicker();
+    void startLoadView();
+    void endLoadView();
 }

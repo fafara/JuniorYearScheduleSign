@@ -10,12 +10,15 @@ import android.widget.EditText;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatEntity;
+import com.example.wyz.schedulesign.Mvp.Presenter.SeatPresenter;
 import com.example.wyz.schedulesign.R;
 
 import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+
+import static com.example.wyz.schedulesign.Mvp.Activity.SeatActivity.sSeatEntities;
 
 public class TicketActivity extends BaseActivity {
 
@@ -28,6 +31,7 @@ public class TicketActivity extends BaseActivity {
     @InjectView(R.id.seat)
     EditText mSeat;
 
+    SeatPresenter mSeatPresenter=new SeatPresenter();
     @Override
     public void initActionBar() {
         mToolbar.setTitle("");
@@ -59,6 +63,8 @@ public class TicketActivity extends BaseActivity {
     @OnClick(R.id.btn)
     public  void OnClick(View view){
         if(view.getId()==R.id.btn){
+            mSeatPresenter.ticketSeat(sSeatEntities);
+
             snackBarError("购票成功");
             Intent intent=new Intent();
             intent.setClass(TicketActivity.this, MainViewActivity.class);

@@ -78,4 +78,5 @@
             />
 
     </com.github.clans.fab.FloatingActionMenu>
+
 </android.support.design.widget.CoordinatorLayout>

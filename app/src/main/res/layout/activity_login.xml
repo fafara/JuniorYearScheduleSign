@@ -156,4 +156,23 @@
         android:layout_marginEnd="-20dp"
         />
 
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:visibility="gone"
+        android:id="@+id/loading"
+        android:background="#ccffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            style="@style/AVLoadingIndicatorView"
+            android:visibility="visible"
+            android:layout_gravity="center"
+            app:indicatorName="BallClipRotateMultipleIndicator"
+            app:indicatorColor="@color/main_theme"
+            />
+
+    </FrameLayout>
 </RelativeLayout>

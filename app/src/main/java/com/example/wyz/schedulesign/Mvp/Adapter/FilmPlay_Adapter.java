@@ -39,7 +39,7 @@ public class FilmPlay_Adapter extends android.support.v7.widget.RecyclerView.Ada
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.mFormTime.setText(sFilmPlayEntities.get(position).getPlay_start());
         holder.mEndTime.setText(sFilmPlayEntities.get(position).getPlay_end());
-        holder.mStudioId.setText(sFilmPlayEntities.get(position).getStudio_id());
+        holder.mStudioId.setText(sFilmPlayEntities.get(position).getStudio_name());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -134,7 +134,7 @@ public class FilmAddModel implements IFilmAddModel {
                 RxPartMapUtils.toMultipartBodyOfText("film_name",detail.getFilm_name()),
                 RxPartMapUtils.toMultipartBodyOfText("film_tostar",detail.getFilm_tostar()),
                 RxPartMapUtils.toMultipartBodyOfText("film_release",detail.getFilm_release()),
-                RxPartMapUtils.toMultipartBodyOfText("film_hourlong",detail.getFilm_hourlong()),
+                RxPartMapUtils.toMultipartBodyOfText("film_hourlong",String.valueOf(detail.getFilm_hourlong())),
                 RxPartMapUtils.toMultipartBodyOfText("film_type",detail.getFilm_type()),
                 RxPartMapUtils.toMultipartBodyOfText("film_price",detail.getFilm_price())
         );

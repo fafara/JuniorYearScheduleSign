@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.NetWork;
 
+import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatStatusEntity;
 
 import java.io.IOException;
@@ -68,6 +69,13 @@ public class SeatHttpMethods {
     }
     public  void ticketsSeat(Subscriber<SeatStatusEntity> subscriber,String json){
         mSeatService.ticketSeat(json)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public  void getSeatStatus(Subscriber<SeatAllStatusEntity> subscriber, String studio_id){
+        mSeatService.getSeatStatus(studio_id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

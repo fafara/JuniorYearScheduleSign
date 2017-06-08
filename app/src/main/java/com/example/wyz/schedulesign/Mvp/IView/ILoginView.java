@@ -11,4 +11,7 @@ public interface ILoginView  extends BaseView{
     void setEnterAnimation();
     void initPermission();
     void snackBar_permission_error();
+
+    void startLoadView();
+    void endLoadView();
 }

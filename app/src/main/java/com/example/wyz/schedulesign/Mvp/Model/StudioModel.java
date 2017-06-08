@@ -2,6 +2,7 @@ package com.example.wyz.schedulesign.Mvp.Model;
 
 import com.example.wyz.schedulesign.Mvp.Entity.StudioEntity;
 import com.example.wyz.schedulesign.Mvp.IModel.IStudioModel;
+import com.example.wyz.schedulesign.Mvp.Presenter.StudioPresenter;
 import com.example.wyz.schedulesign.NetWork.StudioHttpMethods;
 
 import rx.Subscriber;
@@ -11,6 +12,7 @@ import rx.Subscriber;
  */
 
 public class StudioModel implements IStudioModel {
+    StudioPresenter mStudioPresenter=new StudioPresenter();
     @Override
     public void getAllStudio() {
         Subscriber<StudioEntity> subscriber=new Subscriber<StudioEntity>() {
@@ -26,7 +28,7 @@ public class StudioModel implements IStudioModel {
 
             @Override
             public void onNext(StudioEntity studioEntity) {
-
+                mStudioPresenter.setListView(studioEntity.getDetail());
             }
         };
         StudioHttpMethods.getInstance().getAllStudio(subscriber);

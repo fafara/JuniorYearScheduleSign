@@ -99,16 +99,16 @@ public class FilmPlayHttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public  void getAddPlayforFilm(Subscriber<PlayStatusEntity> subscriber,String studio_id, String play_start,String play_end, String film_id, String film_name) {
-        mFilmPlayService.addPlayforFilm(studio_id,play_start,play_end,film_id,film_name)
+    public  void getAddPlayforFilm(Subscriber<PlayStatusEntity> subscriber,String studio_id,String studio_name, String play_start,String play_end, String film_id, String film_name) {
+        mFilmPlayService.addPlayforFilm(studio_id,studio_name,play_start,play_end,film_id,film_name)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-    public  void getModifyPlayforFilm(Subscriber<PlayStatusEntity> subscriber, String play_id,String studio_id, String play_start,String play_end, String film_id, String film_name){
-        mFilmPlayService.updataPlayforFilm(play_id,studio_id,play_start,play_end,film_id,film_name)
+    public  void getModifyPlayforFilm(Subscriber<PlayStatusEntity> subscriber, String play_id,String studio_name,String studio_id, String play_start,String play_end, String film_id, String film_name){
+        mFilmPlayService.updataPlayforFilm(play_id,studio_name,studio_id,play_start,play_end,film_id,film_name)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())

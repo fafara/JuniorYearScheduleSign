@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.Mvp.Model;
 
+import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatStatusEntity;
 import com.example.wyz.schedulesign.Mvp.IModel.ISeatModel;
@@ -44,7 +45,6 @@ public class SeatModel implements ISeatModel {
         Subscriber<SeatStatusEntity> subscriber=new Subscriber<SeatStatusEntity>() {
             @Override
             public void onCompleted() {
-                mSeatPresenter.completed();
             }
 
             @Override
@@ -61,5 +61,26 @@ public class SeatModel implements ISeatModel {
 
 
 
+    }
+
+    @Override
+    public void getSeatStatus(String studio_id) {
+        Subscriber<SeatAllStatusEntity> subscriber=new Subscriber<SeatAllStatusEntity>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                MyLog.d(TAG,e.getMessage());
+            }
+
+            @Override
+            public void onNext(SeatAllStatusEntity seatAllStatusEntity) {
+                mSeatPresenter.setSeatStatus(seatAllStatusEntity);
+            }
+        };
+        SeatHttpMethods.getInstance().getSeatStatus(subscriber,studio_id);
     }
 }

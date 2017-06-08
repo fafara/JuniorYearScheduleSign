@@ -49,6 +49,10 @@
         </activity>
         <activity android:name=".Mvp.Activity.TicketActivity">
         </activity>
+        <activity android:name=".Mvp.Activity.StudioAddActivity">
+        </activity>
+        <activity android:name=".Mvp.Activity.StudioModifyActivity">
+        </activity>
     </application>
 
 </manifest>

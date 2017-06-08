@@ -29,7 +29,6 @@ import com.nispok.snackbar.SnackbarManager;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -53,7 +52,7 @@ public class FilmFragment extends BaseFragment implements  IFilmView{
     @InjectView(R.id.fab_search)
     FloatingActionButton mSearchFab;
 
-    FilmPresenter mFilmPresenter=null;
+    FilmPresenter mFilmPresenter=new FilmPresenter(this);
     final  int ACTIVITY_MODIFY=2;
     final  int ACTIVITY_ADD=1;
     Film_Adapter film_adapter=null;
@@ -70,7 +69,6 @@ public class FilmFragment extends BaseFragment implements  IFilmView{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initPresenter();
         mFilmPresenter.getAllFilm();
     }
 
@@ -86,15 +84,8 @@ public class FilmFragment extends BaseFragment implements  IFilmView{
 
     }
 
-    @Override
-    public void initInject(View view) {
-        ButterKnife.inject(this,view);
-    }
 
-    @Override
-    public void initPresenter() {
-        mFilmPresenter=new FilmPresenter(this);
-    }
+
 
 
     @Override
@@ -228,4 +219,5 @@ public class FilmFragment extends BaseFragment implements  IFilmView{
             refreshView();
         }
     }
+
 }

@@ -30,7 +30,6 @@ import com.nispok.snackbar.SnackbarManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -124,15 +123,6 @@ public class PeopleFragment extends BaseFragment  {
         allUserNetRequest();
     }
 
-    @Override
-    public void initInject(View view) {
-        ButterKnife.inject(this,view);
-    }
-
-    @Override
-    public void initPresenter() {
-
-    }
 
     public  void allUserNetRequest(){
         mSubscriber=new Subscriber<List<PeopleEntity.MDetail>>() {

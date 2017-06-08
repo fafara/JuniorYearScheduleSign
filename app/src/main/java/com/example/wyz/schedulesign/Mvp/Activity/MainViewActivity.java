@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.transition.Explode;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,8 +17,11 @@ import com.example.wyz.schedulesign.Mvp.Adapter.MyViewPagerAdapter;
 import com.example.wyz.schedulesign.Mvp.Fragment.FilmFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.MeFragment;
 import com.example.wyz.schedulesign.Mvp.Fragment.PeopleFragment;
+import com.example.wyz.schedulesign.Mvp.Fragment.StudioFragment;
+import com.example.wyz.schedulesign.Mvp.IView.IMainView;
 import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +29,28 @@ import java.util.List;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class MainViewActivity extends BaseActivity {
+public class MainViewActivity extends BaseActivity implements IMainView{
     @InjectView(R.id.film)
     LinearLayout mFilm;
     @InjectView(R.id.people)
     LinearLayout mPeople;
     @InjectView(R.id.me)
     LinearLayout mMe;
+    @InjectView(R.id.studio)
+    LinearLayout mStudio;
     @InjectView(R.id.viewpager)
     ViewPager mViewPager;
     @InjectView(R.id.split)
     View splitLine;
+    @InjectView(R.id.avi)
+    AVLoadingIndicatorView avi;
+    @InjectView(R.id.loading)
+    FrameLayout mFrameLayout;
 
     FilmFragment mFilmFragment;
     MeFragment mMeFragment;
     PeopleFragment mPeopleFragment;
+    StudioFragment mStudioFragment;
     private List<Fragment> mFragmentList;
     private  int currentPage=-1;
     private  static  final  int TAKE_PHOTO=1;
@@ -51,10 +62,10 @@ public class MainViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainview);
         initInject();
-
+        startLoadView();
         initView();
     }
-    @OnClick({R.id.film,R.id.people,R.id.me})
+    @OnClick({R.id.film,R.id.people,R.id.me,R.id.studio})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.film:
@@ -64,6 +75,9 @@ public class MainViewActivity extends BaseActivity {
                 PageClick(1);
                 break;
             case R.id.me:
+                PageClick(3);
+                break;
+            case R.id.studio:
                 PageClick(2);
                 break;
         }
@@ -78,14 +92,17 @@ public class MainViewActivity extends BaseActivity {
         mFragmentList=new ArrayList<>();
         mFilmFragment=new FilmFragment();
         mPeopleFragment=new PeopleFragment();
+        mStudioFragment=new StudioFragment();
         mMeFragment=new MeFragment();
         mFragmentList.add(mFilmFragment);
         mFragmentList.add(mPeopleFragment);
+        mFragmentList.add(mStudioFragment);
         mFragmentList.add(mMeFragment);
 
         mViewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager(),mFragmentList));
         mViewPager.addOnPageChangeListener(new MyViewPagerPageChangeListener());
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
+        endLoadView();
     }
 
     @Override
@@ -98,6 +115,7 @@ public class MainViewActivity extends BaseActivity {
         enterAnimation();
         initViewPager();
     }
+
 
 
 
@@ -145,26 +163,37 @@ public class MainViewActivity extends BaseActivity {
         ImageView film_imageView;
         ImageView people_imageView;
         ImageView me_imageView;
+        ImageView studio_imageView;
         mViewPager.setCurrentItem(index, true);
 
         film_imageView = (ImageView) mFilm.getChildAt(0);
         people_imageView = (ImageView) mPeople.getChildAt(0);
         me_imageView = (ImageView) mMe.getChildAt(0);
+        studio_imageView=(ImageView) mStudio.getChildAt(0);
         switch (index) {
             case 0:
                 film_imageView .setImageResource(R.mipmap.film);
                 people_imageView.setImageResource(R.mipmap.people);
                 me_imageView.setImageResource(R.mipmap.me);
+                studio_imageView.setImageResource(R.mipmap.studio_24dp);
                 break;
             case 1:
                 film_imageView .setImageResource(R.mipmap.film);
                 people_imageView.setImageResource(R.mipmap.people);
                 me_imageView.setImageResource(R.mipmap.me);
+                studio_imageView.setImageResource(R.mipmap.studio_24dp);
                 break;
             case 2:
                 film_imageView .setImageResource(R.mipmap.film);
                 people_imageView.setImageResource(R.mipmap.people);
                 me_imageView.setImageResource(R.mipmap.me);
+                studio_imageView.setImageResource(R.mipmap.studio_24dp);
+                break;
+            case 3:
+                film_imageView .setImageResource(R.mipmap.film);
+                people_imageView.setImageResource(R.mipmap.people);
+                me_imageView.setImageResource(R.mipmap.me);
+                studio_imageView.setImageResource(R.mipmap.studio_24dp);
                 break;
         }
     }
@@ -186,5 +215,17 @@ public class MainViewActivity extends BaseActivity {
         FragmentManager fragmentManager=getSupportFragmentManager();
         MeFragment fragment=(MeFragment)fragmentManager.getFragments().get(2);
         fragment.setUserIcon(path);
+    }
+
+    @Override
+    public void startLoadView() {
+        avi.show();
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endLoadView() {
+        avi.hide();
+        mFrameLayout.setVisibility(View.GONE);
     }
 }

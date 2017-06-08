@@ -1,5 +1,6 @@
 package com.example.wyz.schedulesign.Mvp.Presenter;
 
+import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatEntity;
 import com.example.wyz.schedulesign.Mvp.IView.ISeatView;
 import com.example.wyz.schedulesign.Mvp.Model.SeatModel;
@@ -38,8 +39,12 @@ public class SeatPresenter implements BasePresenter {
     public  void ticketSeat(List<SeatEntity> seatEntities){
         sSeatModel.ticketSeat(seatEntities);
     }
-    public  void completed(){
-        sISeatView.intoTicket();
+
+    public  void getSeatStatus(String studio_id){
+        sSeatModel.getSeatStatus(studio_id);
+    }
+    public  void setSeatStatus(SeatAllStatusEntity seatAllStatusEntity){
+        sISeatView.setSeatStatus(seatAllStatusEntity);
     }
 
 

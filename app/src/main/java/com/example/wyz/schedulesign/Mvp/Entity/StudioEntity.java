@@ -27,11 +27,15 @@ public class StudioEntity {
         Detail = detail;
     }
 
-    public class MDetail implements Serializable{
+    public static class MDetail implements Serializable{
         private String studio_id;
         private String studio_name;
         private int  studio_row_count;
         private int studio_col_count;
+        /*
+        * 0:不能使用
+        * 1:可以使用
+        * */
         private String studio_flag;
 
 

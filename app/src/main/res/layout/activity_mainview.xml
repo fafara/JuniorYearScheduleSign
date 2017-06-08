@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Mvp.Activity.MainViewActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                tools:context=".Mvp.Activity.MainViewActivity">
 
     <LinearLayout
         android:id="@+id/bottom_label"
@@ -12,6 +13,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         >
+
         <LinearLayout
             android:id="@+id/film"
             android:layout_width="wrap_content"
@@ -57,6 +59,29 @@
                 android:textColor="@color/normalBottom"
                 />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/studio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/main_theme"
+            android:clickable="true"
+            >
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/studio_24dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/four_bottom"
+                android:textColor="@color/normalBottom"
+                />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/me"
             android:layout_width="wrap_content"
@@ -92,4 +117,22 @@
         android:layout_above="@id/split"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/loading"
+        android:background="#ccffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            style="@style/AVLoadingIndicatorView"
+            android:visibility="visible"
+            android:layout_gravity="center"
+            app:indicatorName="BallPulseRiseIndicator"
+            app:indicatorColor="@color/main_theme"
+            />
+
+    </FrameLayout>
 </RelativeLayout>

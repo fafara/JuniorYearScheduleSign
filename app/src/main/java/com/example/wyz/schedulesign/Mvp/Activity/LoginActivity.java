@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.IView.ILoginView;
@@ -23,6 +24,7 @@ import com.example.wyz.schedulesign.R;
 import com.example.wyz.schedulesign.Util.MyExit;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -45,6 +47,11 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     FloatingActionButton fab;
     @InjectView(R.id.bt_remember)
     CheckBox mCheckBox;
+    @InjectView(R.id.avi)
+    AVLoadingIndicatorView avi;
+    @InjectView(R.id.loading)
+    FrameLayout mFrameLayout;
+
     String username,password;
     private static final int PERMISSION_OK= 1;
 
@@ -78,6 +85,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
                 }
                 break;
             case R.id.bt_go:
+                startLoadView();
                 username=etUsername.getText().toString();
                 password=etPassword.getText().toString();
                 if(!username.equals("")&&!password.equals("")){
@@ -123,6 +131,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
 
     @Override
     public void setEnterAnimation() {
+        endLoadView();
         Explode explode = new Explode();
         explode.setDuration(500);
         //设置退出效果
@@ -178,4 +187,16 @@ public class LoginActivity extends BaseActivity implements ILoginView{
                 break;
         }
     }
+    @Override
+    public void startLoadView() {
+        avi.show();
+        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endLoadView() {
+        avi.hide();
+        mFrameLayout.setVisibility(View.GONE);
+    }
+
 }
