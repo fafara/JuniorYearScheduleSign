@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.android.datetimepicker.date.DatePickerDialog;
@@ -52,11 +53,14 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
     AVLoadingIndicatorView avi;
     @InjectView(R.id.loading)
     FrameLayout mFrameLayout;
+    @InjectView(R.id.content)
+    RelativeLayout mRelativeLayout;
 
 
     PlayModifyPresenter mModifyPresenter=new PlayModifyPresenter(this);
     PlayEntity.MDetail mMDetail=new PlayEntity.MDetail();
     StudioEntity mStudioEntity=new StudioEntity();
+    StudioEntity.MDetail detail;
     int pos;
 
     private Calendar calendar;
@@ -184,7 +188,13 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
             case R.id.tickets:
                 Intent intent=new Intent();
                 intent.setClass(PlayModifyActivity.this,SeatActivity.class);
-                StudioEntity.MDetail detail=mStudioEntity.getDetail().get(pos);
+                for(int i=0;i<mStudioEntity.getDetail().size();i++){
+                    if(mMDetail.getStudio_name().equals(mStudioEntity.getDetail().get(i).getStudio_name())){
+                        detail=mStudioEntity.getDetail().get(i);
+                    }
+                }
+
+
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("studio",detail);
                 intent.putExtras(bundle);
@@ -215,6 +225,7 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
     @Override
     public void startLoadView() {
         avi.show();
+        mRelativeLayout.setVisibility(View.GONE);
         mFrameLayout.setVisibility(View.VISIBLE);
     }
 
@@ -222,5 +233,6 @@ public class PlayModifyActivity extends BaseActivity implements IPlayModifyView,
     public void endLoadView() {
         avi.hide();
         mFrameLayout.setVisibility(View.GONE);
+        mRelativeLayout.setVisibility(View.VISIBLE);
     }
 }

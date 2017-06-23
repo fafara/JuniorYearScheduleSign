@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Adapter.FilmPlay_Adapter;
@@ -66,6 +67,8 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     AVLoadingIndicatorView avi;
     @InjectView(R.id.loading)
     FrameLayout mFrameLayout;
+    @InjectView(R.id.content)
+    RelativeLayout mRelativeLayout;
 
     FilmEntity.MDetail mDetail=new FilmEntity.MDetail();
     private  static  final  int IMAGE=1;
@@ -82,6 +85,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
         setContentView(R.layout.activity_film_modify);
         initInject();
         initActionBar();
+        startLoadView();
         getIntentData();
 
     }
@@ -111,7 +115,7 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
 
     @Override
     public void getIntentData() {
-        startLoadView();
+
         Intent intent=this.getIntent();
         mDetail= (FilmEntity.MDetail)intent.getSerializableExtra("film");
         initView();
@@ -206,8 +210,10 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
                 e.printStackTrace();
             }
         }else if(requestCode==ADDPLAY&&resultCode==RESULT_OK){
+            startLoadView();
             refreshView();
         }else if(requestCode==MODIFYPLAY&&resultCode==RESULT_OK){
+            startLoadView();
             refreshView();
         }
 
@@ -283,11 +289,13 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
             mRecyclerView.setAdapter(filmPlay_adapter);
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setHorizontalScrollBarEnabled(false);
+            endLoadView();
         }else{
             FilmPlay_Adapter.sFilmPlayEntities.addAll(filmPlayEntities);
             filmPlay_adapter.notifyDataSetChanged();
+            endLoadView();
         }
-        endLoadView();
+
     }
 
     @Override
@@ -321,12 +329,14 @@ public class FilmModifyActivity extends BaseActivity implements IFilmModifyView{
     @Override
     public void startLoadView() {
         avi.show();
+        mRelativeLayout.setVisibility(View.GONE);
         mFrameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void endLoadView() {
         avi.hide();
+        mRelativeLayout.setVisibility(View.VISIBLE);
         mFrameLayout.setVisibility(View.GONE);
     }
 

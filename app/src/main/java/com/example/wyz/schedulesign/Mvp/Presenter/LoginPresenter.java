@@ -62,6 +62,9 @@ public class LoginPresenter implements BasePresenter {
         mLoginModel.permissionSetting((Activity)mILoginView);
     }
 
+    public  void endLoadView(){
+        mILoginView.endLoadView();
+    }
     @Override
     public void snackBarError() {
         mILoginView.snackBarError();

@@ -78,6 +78,7 @@ public class LoginModel implements ILoginModel {
             @Override
             public void onError(Throwable e) {
                 MyLog.d(TAG,"请求出错:"+e.getMessage());
+                mLoginPresenter.endLoadView();
                 mLoginPresenter.snackBarError("请求出错");
             }
 

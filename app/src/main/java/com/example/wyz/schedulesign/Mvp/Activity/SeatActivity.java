@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.Entity.SeatAllStatusEntity;
@@ -39,6 +40,8 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     AVLoadingIndicatorView avi;
     @InjectView(R.id.loading)
     FrameLayout mFrameLayout;
+    @InjectView(R.id.content)
+    RelativeLayout mRelativeLayout;
 
     StudioEntity.MDetail detail=null;
     SeatPresenter mSeatPresenter=new SeatPresenter(this);
@@ -46,9 +49,9 @@ public class SeatActivity extends BaseActivity implements ISeatView{
 
     static List<SeatEntity> sSeatEntities=new ArrayList<>();
 
-    static List<SeatEntity> sSeatSold=new ArrayList<>();
+     List<SeatEntity> sSeatSold=new ArrayList<>();
 
-    static List<SeatEntity> sSeatValid=new ArrayList<>();
+     List<SeatEntity> sSeatValid=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,8 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     @Override
     public void initView() {
         getIntentData();
+        sSeatSold.clear();
+        sSeatValid.clear();
         getSeatSold(detail.getStudio_id());
 
 
@@ -104,6 +109,7 @@ public class SeatActivity extends BaseActivity implements ISeatView{
 
     @Override
     public void initSeatView() {
+
         mSeatTable.setScreenName(detail.getStudio_name());//设置屏幕名称
         mSeatTable.setMaxSelected(3);//设置最多选中
         mSeatTable.setData(detail.getStudio_row_count(),detail.getStudio_col_count());
@@ -216,6 +222,7 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     @Override
     public void startLoadView() {
         avi.show();
+        mRelativeLayout.setVisibility(View.GONE);
         mFrameLayout.setVisibility(View.VISIBLE);
     }
 
@@ -223,6 +230,7 @@ public class SeatActivity extends BaseActivity implements ISeatView{
     public void endLoadView() {
         avi.hide();
         mFrameLayout.setVisibility(View.GONE);
+        mRelativeLayout.setVisibility(View.VISIBLE);
     }
 
 }

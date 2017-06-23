@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.example.wyz.schedulesign.Mvp.Activity.base.BaseActivity;
 import com.example.wyz.schedulesign.Mvp.IView.ILoginView;
@@ -51,6 +52,8 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     AVLoadingIndicatorView avi;
     @InjectView(R.id.loading)
     FrameLayout mFrameLayout;
+    @InjectView(R.id.content)
+    RelativeLayout mRelativeLayout;
 
     String username,password;
     private static final int PERMISSION_OK= 1;
@@ -131,7 +134,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
 
     @Override
     public void setEnterAnimation() {
-        endLoadView();
+
         Explode explode = new Explode();
         explode.setDuration(500);
         //设置退出效果
@@ -142,6 +145,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
         ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
         Intent i2 = new Intent(LoginActivity.this,MainViewActivity.class);
         startActivity(i2, oc2.toBundle());
+        endLoadView();
         LoginActivity.this.finish();
     }
 
@@ -190,6 +194,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     @Override
     public void startLoadView() {
         avi.show();
+        mRelativeLayout.setVisibility(View.GONE);
         mFrameLayout.setVisibility(View.VISIBLE);
     }
 
@@ -197,6 +202,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     public void endLoadView() {
         avi.hide();
         mFrameLayout.setVisibility(View.GONE);
+        //mRelativeLayout.setVisibility(View.VISIBLE);
     }
 
 }
